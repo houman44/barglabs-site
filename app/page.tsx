@@ -104,7 +104,7 @@ export default function Page() {
           </p>
 
           <p>
-            Through this work I became increasingly skeptical of much of the narrative around AI trading. Many systems marketed as AI-driven trading rely on thin abstractions, opaque models, or automation without meaningful operational discipline.
+            Through this work I became increasingly interested in how intelligent systems can operate in markets safely and reliably. Many current approaches focus primarily on models, while the operational infrastructure required to run such systems responsibly remains underdeveloped.
           </p>
         </Section>
 
