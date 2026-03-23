@@ -50,8 +50,8 @@ export default function Page() {
           <nav className="hidden items-center gap-6 text-sm text-white/60 md:flex">
             <a href="#background" className="transition hover:text-white">Background</a>
             <a href="#why" className="transition hover:text-white">Why Barg Labs</a>
-            <a href="#systems" className="transition hover:text-white">Systems</a>
-            <a href="#notes" className="transition hover:text-white">Notes</a>
+            <a href="#safety" className="transition hover:text-white">Safety</a>
+            <a href="#onboarding" className="transition hover:text-white">How I Work</a>
           </nav>
 
           <a
@@ -81,15 +81,15 @@ export default function Page() {
 
           <div className="mt-8 max-w-3xl space-y-5 text-lg leading-8 text-white/75">
             <p>
-              I’m building Barg Labs to explore a question that feels increasingly important:
+              I’m building Barg Labs around a simpler question:
             </p>
 
             <p className="text-white/90">
-              What does it look like for machines to operate inside markets responsibly?
+              How do you turn a trading idea into a live strategy without handing control to a black box?
             </p>
 
             <p>
-              Artificial intelligence is rapidly expanding what parts of complex workflows can be automated. But most real-world systems — especially markets — still lack the infrastructure required to safely operate autonomous systems.
+              Barg Labs is not a generic AI tool or a retail trading platform. It is a system for running trading strategies in real markets with real execution, explicit risk controls, and hands-on oversight. The goal is simple: help people run strategies automatically, safely, and with clear control over what the system is allowed to do.
             </p>
           </div>
         </motion.section>
@@ -100,103 +100,131 @@ export default function Page() {
           </p>
 
           <p>
-            Over the past several years my work has increasingly focused on artificial intelligence and machine learning. I completed professional certification in AI and ML through Imperial College London and have been exploring how these technologies behave in real-world operational systems rather than purely research environments.
+            Over the past several years my work has focused on what happens when software moves from analysis into action. That means less interest in demos and more interest in whether a system can behave predictably when it is live, exposed to real conditions, and responsible for real outcomes.
           </p>
 
           <p>
-            Through this work I became increasingly interested in how intelligent systems can operate in markets safely and reliably. Many current approaches focus primarily on models, while the operational infrastructure required to run such systems responsibly remains underdeveloped.
+            Markets made that problem especially clear. Many products talk about intelligence or automation, but far fewer are designed to run strategies safely and reliably once money is actually at risk.
           </p>
         </Section>
 
         <Section id="why" title="Why Barg Labs">
           <p>
-            Barg Labs emerged from the belief that the next generation of intelligent systems in markets will require more than better models.
+            Barg Labs emerged from a practical belief: if someone has a real trading idea, they should be able to turn it into a live strategy without stitching together a research stack, an execution engine, and a risk layer on their own.
           </p>
 
           <p>
-            They will require infrastructure — systems that allow machine reasoning and automation to operate inside explicit risk boundaries, operational controls, and observable workflows.
+            I’m building the system to do exactly that. A strategy can be defined clearly, deployed into real markets, and run automatically with risk controls, monitoring, and human review built in from the start.
           </p>
 
           <p>
-            Instead of pursuing full autonomy, the focus is on <strong>governed agentic systems</strong> — systems that can reason, act, and adapt while remaining auditable, controllable, and constrained by policy.
+            This is not a black box. It is designed so the user understands the rules, sees how the strategy behaves, and stays in control while the system handles execution and day-to-day operation.
+          </p>
+        </Section>
+
+        <Section id="safety" title="Safety first">
+          <p>
+            Safety over profit is a product decision here, not a disclaimer added at the end. Every strategy is deployed with explicit risk limits, controlled exposure, and a kill switch before it is allowed to run.
+          </p>
+
+          <p>
+            The system is designed to prevent blowups, not chase activity for its own sake. Position sizing, exposure boundaries, monitoring, and stop conditions exist so a strategy stays legible and bounded even when markets move unexpectedly.
+          </p>
+
+          <p>
+            The user retains control at all times. Strategies can be reviewed, adjusted, paused, or shut down entirely, and nothing is treated as untouchable once it is live.
           </p>
         </Section>
 
         <motion.section id="systems" {...fade} className="mb-24 scroll-mt-24">
           <div className="mb-8 flex items-end justify-between gap-4">
             <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Systems built so far
+              Live today
             </h2>
-            <p className="hidden text-sm text-white/45 md:block">Operational proof before scale.</p>
+            <p className="hidden text-sm text-white/45 md:block">Real execution before broad rollout.</p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
             <Surface>
               <p className="text-base leading-7 text-white/75 sm:text-lg">
-                A live-capable prediction market runtime supporting ingestion, evaluation, sizing logic, execution, monitoring, and rollout systems.
+                The system is live and running real strategies rather than sitting in a research environment. It is built for actual execution, monitoring, and controlled rollout.
               </p>
             </Surface>
 
             <Surface>
               <p className="text-base leading-7 text-white/75 sm:text-lg">
-                A second FX runtime with signal generation, Kelly sizing logic, and execution infrastructure.
+                It already supports multiple market workflows, with live work today in prediction markets and FX and a path to extend the same operating model across other markets.
               </p>
             </Surface>
 
             <Surface>
               <p className="text-base leading-7 text-white/75 sm:text-lg">
-                Operational infrastructure including canary deployments, shadow evaluation paths, monitoring systems, and rollback controls.
+                Early users are already using it in collaboration with me, which means the product is being shaped by real deployment constraints, not hypothetical ones.
               </p>
             </Surface>
           </div>
         </motion.section>
 
-        <motion.section id="notes" {...fade} className="mb-24 scroll-mt-24">
+        <motion.section id="onboarding" {...fade} className="mb-24 scroll-mt-24">
           <div className="mb-8 flex items-end justify-between gap-4">
             <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Notes from the lab
+              How I work with users
             </h2>
-            <p className="hidden text-sm text-white/45 md:block">Early essays and working ideas.</p>
+            <p className="hidden text-sm text-white/45 md:block">Hands-on onboarding, limited access.</p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
             <Surface>
               <h3 className="text-lg font-semibold text-white">
-                Why most AI trading systems fail
+                Manual onboarding
               </h3>
               <p className="mt-2 text-white/70">
-                Many systems described as AI trading platforms are primarily research pipelines connected to execution engines. Without governance layers, monitoring, and operational discipline, intelligent systems quickly become difficult to trust in real market environments.
+                Early users are onboarded directly by me. We start small, define the strategy carefully, and set the limits before anything is allowed to run.
               </p>
             </Surface>
 
             <Surface>
               <h3 className="text-lg font-semibold text-white">
-                Markets need governed agents
+                Deployed together
               </h3>
               <p className="mt-2 text-white/70">
-                Intelligent agents operating in markets must function within clear policy boundaries. The future likely belongs not to unconstrained autonomy but to systems that balance reasoning ability with explicit operational control.
+                I work with each user to turn an idea into a live strategy. We review the rules, the risk boundaries, and the expected behavior together so the system is understandable before it is automated.
               </p>
             </Surface>
 
             <Surface>
               <h3 className="text-lg font-semibold text-white">
-                Prediction markets as proving grounds
+                Iterative collaboration
               </h3>
               <p className="mt-2 text-white/70">
-                Prediction markets provide a unique environment for testing machine-assisted decision systems: clear outcomes, probabilistic signals, and real incentives. They represent a natural early wedge for exploring governed agentic systems.
+                After launch, we refine it collaboratively. We look at how it behaves in practice, tighten what needs tightening, and expand only when the system has earned more room.
               </p>
             </Surface>
           </div>
         </motion.section>
 
+        <Section id="fit" title="Who this is for">
+          <p>
+            Barg Labs is for people who already have strategy ideas and want automation without losing control of how those ideas are expressed in the market.
+          </p>
+
+          <p>
+            The best early users are willing to start small, work through the rules carefully, and improve the strategy through real feedback rather than trying to skip straight to full autonomy.
+          </p>
+
+          <p>
+            If you want guided autopilot trading with clear boundaries and direct access to the person building the system, this is the right kind of fit.
+          </p>
+        </Section>
+
         <motion.section {...fade}>
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-10 text-center shadow-[0_10px_30px_rgba(0,0,0,0.22)] sm:px-10">
             <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Building quietly.
+              Working with a small number of users.
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-              If you're interested in the ideas behind Barg Labs or would like to follow the work, feel free to reach out.
+              If this resonates, reach out. I’m onboarding a small number of users directly and working with them hands-on from strategy definition through live deployment and iteration.
             </p>
 
             <div className="mt-8">
@@ -204,7 +232,7 @@ export default function Page() {
                 href="mailto:founder@barglabs.ai"
                 className="inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
               >
-                Contact the founder
+                Work with the founder
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </div>
@@ -214,4 +242,3 @@ export default function Page() {
     </div>
   );
 }
-
