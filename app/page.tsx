@@ -55,7 +55,7 @@ export default function Page() {
           </nav>
 
           <a
-            href="mailto:founder@barglabs.ai"
+            href="mailto:team@barglabs.ai"
             className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
           >
             Contact
@@ -90,6 +90,10 @@ export default function Page() {
 
             <p>
               Barg Labs is not a generic AI tool or a retail trading platform. It is a system for running trading strategies in real markets with real execution, explicit risk controls, and hands-on oversight. The goal is simple: help people run strategies automatically, safely, and with clear control over what the system is allowed to do.
+            </p>
+
+            <p>
+              The product is called <span className="font-semibold text-white">Egbert</span>.
             </p>
           </div>
         </motion.section>
@@ -227,12 +231,21 @@ export default function Page() {
               If this resonates, reach out. I’m onboarding a small number of users directly and working with them hands-on from strategy definition through live deployment and iteration.
             </p>
 
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <a
-                href="mailto:founder@barglabs.ai"
+                href="mailto:team@barglabs.ai"
                 className="inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
               >
                 Work with the founder
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+              <a
+                href="https://egbert.io/app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/[0.10]"
+              >
+                Create an Egbert account
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </div>
