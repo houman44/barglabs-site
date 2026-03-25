@@ -239,15 +239,6 @@ export default function Page() {
                 Work with the founder
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
-              <a
-                href="https://egbert.io/setup"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/[0.10]"
-              >
-                Create an Egbert account
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
             </div>
           </div>
         </motion.section>
