@@ -1,247 +1,404 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const fade = {
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 14 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.45 },
+  viewport: { once: true, amount: 0.18 },
+  transition: { duration: 0.42 },
 };
 
-function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
+const navItems = [
+  ["Products", "#products"],
+  ["Approach", "#approach"],
+  ["Leadership", "#leadership"],
+  ["Alfred", "#alfred"],
+  ["Egbert", "#egbert"],
+  ["Therasyn", "#therasyn"],
+  ["Sara", "#sara"],
+  ["Edwy", "#edwy"],
+] as const;
+
+type Product = {
+  name: string;
+  title: string;
+  href: string;
+  displayUrl: string;
+  body: string;
+};
+
+const products: Product[] = [
+  {
+    name: "Alfred",
+    title: "Operator OS for AI-native studios",
+    href: "https://alfred.barglabs.ai/mission-control",
+    displayUrl: "alfred.barglabs.ai/mission-control",
+    body: "An operating surface for AI-native studios: missions, systems, teams, and live operating context in one place.",
+  },
+  {
+    name: "Egbert",
+    title: "B2B Fintech 3.0 infrastructure",
+    href: "https://barglabs.ai",
+    displayUrl: "barglabs.ai",
+    body: "Infrastructure for turning market ideas into live strategies with real execution, explicit risk controls, and hands-on oversight.",
+  },
+  {
+    name: "Therasyn",
+    title: "Clinical data platform, on-prem from day one",
+    href: "https://therasyn.ai",
+    displayUrl: "therasyn.ai",
+    body: "A multimodal clinical data platform for academic medical centres, regulated health systems, and pharma research environments where cloud-only data infrastructure isn't an option. BAA-bound by design. On-prem capable from day one. Built to ingest, query, and reason over clinical data inside the institution's own perimeter.",
+  },
+  {
+    name: "Sara",
+    title: "Site-machine for agentic website generation",
+    href: "https://barglabs.ai",
+    displayUrl: "barglabs.ai",
+    body: "A product surface for generating and operating agentic websites with the polish, control, and iteration loop serious web work needs.",
+  },
+  {
+    name: "Edwy",
+    title: "Vertical AI literacy",
+    href: "https://edwy.barglabs.ai",
+    displayUrl: "edwy.barglabs.ai",
+    body: "A free public portal that explains AI agents, autonomy, and vertical applications to the curious-but-not-yet-buying - operators, clinicians, finance professionals, engineers, and the people who are about to be. Built as the Barg Labs lens on what AI literacy at the vertical level actually looks like.",
+  },
+];
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <motion.section id={id} {...fade} className="mb-24 scroll-mt-24">
-      <h2 className="mb-6 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-        {title}
-      </h2>
-      <div className="space-y-5 text-base leading-8 text-white/70 sm:text-lg">
+    <motion.section id={id} {...fade} className="scroll-mt-28 py-14 sm:py-18">
+      <div className="mb-7 flex items-center gap-4">
+        <div className="h-px w-10 bg-white/25" />
+        <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+          {title}
+        </h2>
+      </div>
+      <div className="space-y-5 text-base leading-8 text-white/72 sm:text-lg">
         {children}
       </div>
     </motion.section>
   );
 }
 
-function Surface({ children }: { children: React.ReactNode }) {
+function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/15 hover:bg-white/[0.06]">
+    <article className="flex h-full flex-col rounded-lg border border-white/12 bg-white/[0.035] p-5">
+      <div className="text-sm font-medium uppercase tracking-[0.2em] text-sky-200/80">
+        {product.name}
+      </div>
+      <h3 className="mt-4 text-xl font-semibold leading-7 text-white">
+        {product.title}
+      </h3>
+      <a
+        href={product.href}
+        className="mt-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-amber-200 transition hover:text-amber-100"
+      >
+        {product.displayUrl}
+        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+      </a>
+      <p className="mt-5 text-sm leading-7 text-white/68">{product.body}</p>
+    </article>
+  );
+}
+
+function ProductSection({
+  id,
+  title,
+  children,
+  href,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+  href?: string;
+}) {
+  return (
+    <Section id={id} title={title}>
       {children}
-    </div>
+      {href ? (
+        <p>
+          <a
+            href={href}
+            className="inline-flex items-center gap-2 font-medium text-amber-200 transition hover:text-amber-100"
+          >
+            {href.replace("https://", "")}
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </p>
+      ) : null}
+    </Section>
   );
 }
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[-8rem] top-[-4rem] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
-        <div className="absolute right-[-8rem] top-[20%] h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
-        <div className="absolute bottom-[-6rem] left-[35%] h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-[#0b0d0f] text-white">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0d0f]/88 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
+          <a href="#" className="flex items-center gap-3" aria-label="Barg Labs home">
+            <Image
+              src="/barg-icon.png"
+              alt=""
+              width={34}
+              height={34}
+              className="rounded-md"
+              priority
+            />
+            <div>
+              <div className="text-sm font-semibold tracking-tight text-white">
+                Barg Labs
+              </div>
+              <div className="text-[11px] uppercase tracking-[0.22em] text-white/45">
+                Applied AI products
+              </div>
+            </div>
+          </a>
 
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/70 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-          <div>
-            <div className="text-base font-semibold tracking-tight text-white">Barg Labs</div>
-            <div className="text-xs uppercase tracking-[0.24em] text-white/40">Founder</div>
-          </div>
-
-          <nav className="hidden items-center gap-6 text-sm text-white/60 md:flex">
-            <a href="#background" className="transition hover:text-white">Background</a>
-            <a href="#why" className="transition hover:text-white">Why Barg Labs</a>
-            <a href="#safety" className="transition hover:text-white">Safety</a>
-            <a href="#onboarding" className="transition hover:text-white">How I Work</a>
+          <nav className="hidden items-center gap-5 text-sm text-white/60 lg:flex">
+            {navItems.map(([label, href]) => (
+              <a key={href} href={href} className="transition hover:text-white">
+                {label}
+              </a>
+            ))}
           </nav>
 
           <a
             href="mailto:team@barglabs.ai"
-            className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
+            className="rounded-md bg-white px-4 py-2 text-sm font-medium text-[#0b0d0f] transition hover:bg-white/88"
           >
             Contact
           </a>
         </div>
       </header>
 
-      <main className="relative mx-auto max-w-4xl px-6 py-20 sm:py-24">
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_38%,transparent_78%)]" />
+      <main>
+        <section className="border-b border-white/10">
+          <div className="mx-auto grid min-h-[calc(100vh-73px)] max-w-6xl content-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_360px] lg:py-20">
+            <motion.div {...fade} className="max-w-3xl">
+              <div className="mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-sky-200/80">
+                <span className="h-px w-8 bg-sky-200/45" />
+                Alfred. Egbert - Fintech 3.0. Therasyn. Sara. Edwy.
+              </div>
 
-        <motion.section {...fade} className="mb-24">
-          <div className="inline-flex rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs uppercase tracking-[0.22em] text-emerald-200/80 shadow-sm shadow-black/20">
-            Founder
+              <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+                Barg Labs
+              </h1>
+
+              <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-white/74">
+                <p>
+                  The company currently centers on five product lines:{" "}
+                  <span className="font-semibold text-white">Alfred</span>, the
+                  operator OS for AI-native studios;{" "}
+                  <span className="font-semibold text-white">Egbert</span>, our
+                  B2B Fintech 3.0 infrastructure platform;{" "}
+                  <span className="font-semibold text-white">Therasyn</span>, a
+                  data platform for regulated clinical environments;{" "}
+                  <span className="font-semibold text-white">Sara</span>, the
+                  site-machine product for agentic website generation; and{" "}
+                  <span className="font-semibold text-white">Edwy</span>, a
+                  vertical AI-literacy portal.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              {...fade}
+              className="self-end rounded-lg border border-white/12 bg-white/[0.035] p-5"
+            >
+              <Image
+                src="/barg-icon.png"
+                alt="Barg Labs"
+                width={92}
+                height={92}
+                className="rounded-lg"
+                priority
+              />
+              <p className="mt-6 text-sm leading-7 text-white/68">
+                Applied AI products for studios, markets, regulated health
+                systems, the web, and AI literacy.
+              </p>
+            </motion.div>
           </div>
+        </section>
 
-          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-white sm:text-6xl">
-            Houman Azimi-Nejadi
-          </h1>
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <motion.section id="products" {...fade} className="scroll-mt-28 py-14 sm:py-18">
+            <div className="mb-8 flex items-end justify-between gap-6">
+              <div>
+                <div className="mb-4 h-px w-10 bg-white/25" />
+                <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                  Products
+                </h2>
+              </div>
+              <p className="hidden max-w-md text-sm leading-6 text-white/48 md:block">
+                Five focused surfaces, each built around a concrete operating
+                environment.
+              </p>
+            </div>
 
-          <p className="mt-3 text-lg text-white/60">
-            Founder, Barg Labs
-          </p>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+              {products.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
+          </motion.section>
 
-          <div className="mt-8 max-w-3xl space-y-5 text-lg leading-8 text-white/75">
+          <Section id="approach" title="Approach">
             <p>
-              I’m building Barg Labs around a simpler question:
+              Barg Labs builds applied AI products around real operating
+              constraints: who is using the system, where the data lives, what
+              has to be reviewed, and what must remain under human control.
             </p>
-
-            <p className="text-white/90">
-              How do you turn a trading idea into a live strategy without handing control to a black box?
-            </p>
-
             <p>
-              Barg Labs is not a generic AI tool or a retail trading platform. It is a system for running trading strategies in real markets with real execution, explicit risk controls, and hands-on oversight. The goal is simple: help people run strategies automatically, safely, and with clear control over what the system is allowed to do.
+              The work is product-led rather than demo-led. Each surface is
+              designed for a specific audience and an environment where
+              reliability, legibility, and iteration matter.
             </p>
+          </Section>
 
+          <Section id="leadership" title="Leadership">
             <p>
-              The product is called <span className="font-semibold text-white">Egbert</span>.
+              Barg Labs is led by Houman Azimi-Nejadi, a software engineer and
+              founder with more than 25 years of experience building complex
+              software systems across multiple domains.
             </p>
-          </div>
-        </motion.section>
-
-        <Section id="background" title="Background">
-          <p>
-            I have spent more than 25 years working as a software engineer, building and operating complex software systems across multiple domains.
-          </p>
-
-          <p>
-            Over the past several years my work has focused on what happens when software moves from analysis into action. That means less interest in demos and more interest in whether a system can behave predictably when it is live, exposed to real conditions, and responsible for real outcomes.
-          </p>
-
-          <p>
-            Markets made that problem especially clear. Many products talk about intelligence or automation, but far fewer are designed to run strategies safely and reliably once money is actually at risk.
-          </p>
-        </Section>
-
-        <Section id="why" title="Why Barg Labs">
-          <p>
-            Barg Labs emerged from a practical belief: if someone has a real trading idea, they should be able to turn it into a live strategy without stitching together a research stack, an execution engine, and a risk layer on their own.
-          </p>
-
-          <p>
-            I’m building the system to do exactly that. A strategy can be defined clearly, deployed into real markets, and run automatically with risk controls, monitoring, and human review built in from the start.
-          </p>
-
-          <p>
-            This is not a black box. It is designed so the user understands the rules, sees how the strategy behaves, and stays in control while the system handles execution and day-to-day operation.
-          </p>
-        </Section>
-
-        <Section id="safety" title="Safety first">
-          <p>
-            Safety over profit is a product decision here, not a disclaimer added at the end. Every strategy is deployed with explicit risk limits, controlled exposure, and a kill switch before it is allowed to run.
-          </p>
-
-          <p>
-            The system is designed to prevent blowups, not chase activity for its own sake. Position sizing, exposure boundaries, monitoring, and stop conditions exist so a strategy stays legible and bounded even when markets move unexpectedly.
-          </p>
-
-          <p>
-            The user retains control at all times. Strategies can be reviewed, adjusted, paused, or shut down entirely, and nothing is treated as untouchable once it is live.
-          </p>
-        </Section>
-
-        <motion.section id="systems" {...fade} className="mb-24 scroll-mt-24">
-          <div className="mb-8 flex items-end justify-between gap-4">
-            <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Live today
-            </h2>
-            <p className="hidden text-sm text-white/45 md:block">Real execution before broad rollout.</p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            <Surface>
-              <p className="text-base leading-7 text-white/75 sm:text-lg">
-                The system is live and running real strategies rather than sitting in a research environment. It is built for actual execution, monitoring, and controlled rollout.
-              </p>
-            </Surface>
-
-            <Surface>
-              <p className="text-base leading-7 text-white/75 sm:text-lg">
-                It already supports multiple market workflows, with live work today in prediction markets and FX and a path to extend the same operating model across other markets.
-              </p>
-            </Surface>
-
-            <Surface>
-              <p className="text-base leading-7 text-white/75 sm:text-lg">
-                Early users are already using it in collaboration with me, which means the product is being shaped by real deployment constraints, not hypothetical ones.
-              </p>
-            </Surface>
-          </div>
-        </motion.section>
-
-        <motion.section id="onboarding" {...fade} className="mb-24 scroll-mt-24">
-          <div className="mb-8 flex items-end justify-between gap-4">
-            <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              How I work with users
-            </h2>
-            <p className="hidden text-sm text-white/45 md:block">Hands-on onboarding, limited access.</p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            <Surface>
-              <h3 className="text-lg font-semibold text-white">
-                Manual onboarding
-              </h3>
-              <p className="mt-2 text-white/70">
-                Early users are onboarded directly by me. We start small, define the strategy carefully, and set the limits before anything is allowed to run.
-              </p>
-            </Surface>
-
-            <Surface>
-              <h3 className="text-lg font-semibold text-white">
-                Deployed together
-              </h3>
-              <p className="mt-2 text-white/70">
-                I work with each user to turn an idea into a live strategy. We review the rules, the risk boundaries, and the expected behavior together so the system is understandable before it is automated.
-              </p>
-            </Surface>
-
-            <Surface>
-              <h3 className="text-lg font-semibold text-white">
-                Iterative collaboration
-              </h3>
-              <p className="mt-2 text-white/70">
-                After launch, we refine it collaboratively. We look at how it behaves in practice, tighten what needs tightening, and expand only when the system has earned more room.
-              </p>
-            </Surface>
-          </div>
-        </motion.section>
-
-        <Section id="fit" title="Who this is for">
-          <p>
-            Barg Labs is for people who already have strategy ideas and want automation without losing control of how those ideas are expressed in the market.
-          </p>
-
-          <p>
-            The best early users are willing to start small, work through the rules carefully, and improve the strategy through real feedback rather than trying to skip straight to full autonomy.
-          </p>
-
-          <p>
-            If you want guided autopilot trading with clear boundaries and direct access to the person building the system, this is the right kind of fit.
-          </p>
-        </Section>
-
-        <motion.section {...fade}>
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-10 text-center shadow-[0_10px_30px_rgba(0,0,0,0.22)] sm:px-10">
-            <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Working with a small number of users.
-            </h2>
-
-            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-              If this resonates, reach out. I’m onboarding a small number of users directly and working with them hands-on from strategy definition through live deployment and iteration.
+            <p>
+              The company works closely with expert collaborators across product,
+              clinical, market, and web systems as each product line moves from
+              focused surface to live deployment.
             </p>
+          </Section>
 
-            <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <ProductSection
+            id="alfred"
+            title="Alfred"
+            href="https://alfred.barglabs.ai/mission-control"
+          >
+            <p>
+              Alfred is the operator OS for AI-native studios: a working surface
+              for missions, product lines, system state, and the decisions that
+              keep a studio moving.
+            </p>
+            <p>
+              It is built for teams that need their operating context close to
+              the work itself, with structure around what is being built, why it
+              matters, and what needs attention next.
+            </p>
+            <p>
+              Live operator surface available at{" "}
+              <a
+                href="https://alfred.barglabs.ai/mission-control"
+                className="font-medium text-amber-200 transition hover:text-amber-100"
+              >
+                alfred.barglabs.ai/mission-control
+              </a>
+              .
+            </p>
+          </ProductSection>
+
+          <ProductSection id="egbert" title="Egbert">
+            <p>
+              Egbert is Barg Labs' B2B Fintech 3.0 infrastructure platform for
+              turning market ideas into live strategies with explicit risk
+              controls and hands-on oversight.
+            </p>
+            <p>
+              It is designed for real execution, monitoring, and controlled
+              rollout, so strategy work can move from analysis into action
+              without becoming an opaque black box.
+            </p>
+          </ProductSection>
+
+          <ProductSection id="therasyn" title="Therasyn" href="https://therasyn.ai">
+            <p>
+              Therasyn is a multimodal clinical data platform for environments
+              where cloud-only data infrastructure isn't viable - academic
+              medical centres, hospital systems, pharma clinical research, and
+              any setting bound by BAA + state law + sovereign-data
+              requirements.
+            </p>
+            <p>
+              The platform is BAA-bound and on-prem capable from day one. It
+              ingests clinical data inside the institution's own perimeter,
+              exposes a queryable analytical layer, and supports AI-native
+              workflows over multimodal clinical records (genomics, pathology,
+              radiology, notes) without that data ever leaving the institution.
+            </p>
+            <p>
+              For Therasyn the binding constraint is never "does the technology
+              work" - it is "can the technology live where the data has to
+              live." Therasyn is built for exactly that constraint.
+            </p>
+          </ProductSection>
+
+          <ProductSection id="sara" title="Sara">
+            <p>
+              Sara is the site-machine product for agentic website generation:
+              a way to generate, shape, and operate web surfaces with a product
+              loop around quality, context, and iteration.
+            </p>
+            <p>
+              It focuses on the practical web work behind useful sites: content,
+              structure, interaction, polish, and the next version after the
+              first one ships.
+            </p>
+          </ProductSection>
+
+          <ProductSection id="edwy" title="Edwy" href="https://edwy.barglabs.ai">
+            <p>
+              Edwy is a vertical AI-literacy portal - a free public surface that
+              explains agents, autonomy, and vertical applications to the people
+              about to encounter them. Clinicians wondering what's actually
+              possible inside their workflow. Finance professionals trying to
+              evaluate vendor pitches without prior context. Engineers in
+              regulated industries who need a quick read on AI safety
+              discipline.
+            </p>
+            <p>
+              Edwy ships short primers organised by vertical, with worked
+              examples grounded in real product use. The point is not to sell
+              anything. The point is to give the audience the reading they need
+              to evaluate AI critically - their own situations, their own
+              constraints, their own decisions.
+            </p>
+            <p>
+              If Edwy works, it does two things: it raises the floor on AI
+              literacy in regulated verticals, and it becomes the natural
+              reading path for anyone who later wonders what Barg Labs builds.
+            </p>
+          </ProductSection>
+
+          <motion.section {...fade} className="py-14 sm:py-18">
+            <div className="rounded-lg border border-white/12 bg-white/[0.035] px-6 py-9 text-center sm:px-10">
+              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                Contact Barg Labs
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/68">
+                For product conversations, partnerships, or early access,
+                contact the team directly.
+              </p>
               <a
                 href="mailto:team@barglabs.ai"
-                className="inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
+                className="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-medium text-[#0b0d0f] transition hover:bg-white/88"
               >
-                Work with the founder
-                <ArrowRight className="ml-2 h-4 w-4" />
+                team@barglabs.ai
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
-          </div>
-        </motion.section>
+          </motion.section>
+        </div>
       </main>
     </div>
   );
