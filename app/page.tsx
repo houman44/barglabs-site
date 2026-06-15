@@ -25,8 +25,8 @@ const navItems = [
 type Product = {
   name: string;
   title: string;
-  href: string;
-  displayUrl: string;
+  href?: string;
+  displayUrl?: string;
   body: string;
 };
 
@@ -41,22 +41,20 @@ const products: Product[] = [
   {
     name: "Egbert",
     title: "B2B Fintech 3.0 infrastructure",
-    href: "https://barglabs.ai",
-    displayUrl: "barglabs.ai",
-    body: "Infrastructure for turning market ideas into live strategies with real execution, explicit risk controls, and hands-on oversight.",
+    href: "https://egbert.io",
+    displayUrl: "egbert.io",
+    body: "Infrastructure for validating trading strategies and moving them from research to governed paper pilots and production — with explicit risk controls, full attribution, and human oversight.",
   },
   {
     name: "Therasyn",
-    title: "Clinical data platform, on-prem from day one",
+    title: "Governance & on-prem infrastructure for clinical AI",
     href: "https://therasyn.ai",
     displayUrl: "therasyn.ai",
-    body: "A multimodal clinical data platform for academic medical centres, regulated health systems, and pharma research environments where cloud-only data infrastructure isn't an option. BAA-bound by design. On-prem capable from day one. Built to ingest, query, and reason over clinical data inside the institution's own perimeter.",
+    body: "Governance and deployment infrastructure for clinical AI in environments where cloud-only isn't an option — academic medical centres, regulated health systems, and pharma research. BAA-bound by design, on-prem capable from day one. Built so health systems can run AI inside their own perimeter, with audit, PHI controls, and required sign-off enforced by construction.",
   },
   {
     name: "Sara",
     title: "Site-machine for agentic website generation",
-    href: "https://barglabs.ai",
-    displayUrl: "barglabs.ai",
     body: "A product surface for generating and operating agentic websites with the polish, control, and iteration loop serious web work needs.",
   },
   {
@@ -101,13 +99,15 @@ function ProductCard({ product }: { product: Product }) {
       <h3 className="mt-4 text-xl font-semibold leading-7 text-white">
         {product.title}
       </h3>
-      <a
-        href={product.href}
-        className="mt-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-amber-200 transition hover:text-amber-100"
-      >
-        {product.displayUrl}
-        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-      </a>
+      {product.href ? (
+        <a
+          href={product.href}
+          className="mt-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-amber-200 transition hover:text-amber-100"
+        >
+          {product.displayUrl}
+          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+      ) : null}
       <p className="mt-5 text-sm leading-7 text-white/68">{product.body}</p>
     </article>
   );
@@ -203,8 +203,8 @@ export default function Page() {
                   operator OS for AI-native studios;{" "}
                   <span className="font-semibold text-white">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
-                  <span className="font-semibold text-white">Therasyn</span>, a
-                  data platform for regulated clinical environments;{" "}
+                  <span className="font-semibold text-white">Therasyn</span>,
+                  governance and on-prem infrastructure for clinical AI;{" "}
                   <span className="font-semibold text-white">Sara</span>, the
                   site-machine product for agentic website generation; and{" "}
                   <span className="font-semibold text-white">Edwy</span>, a
@@ -308,11 +308,12 @@ export default function Page() {
             </p>
           </ProductSection>
 
-          <ProductSection id="egbert" title="Egbert">
+          <ProductSection id="egbert" title="Egbert" href="https://egbert.io">
             <p>
               Egbert is Barg Labs' B2B Fintech 3.0 infrastructure platform for
-              turning market ideas into live strategies with explicit risk
-              controls and hands-on oversight.
+              validating trading strategies and moving them from research to
+              governed paper pilots and production, with explicit risk controls
+              and human oversight.
             </p>
             <p>
               It is designed for real execution, monitoring, and controlled
@@ -323,18 +324,17 @@ export default function Page() {
 
           <ProductSection id="therasyn" title="Therasyn" href="https://therasyn.ai">
             <p>
-              Therasyn is a multimodal clinical data platform for environments
-              where cloud-only data infrastructure isn't viable - academic
-              medical centres, hospital systems, pharma clinical research, and
-              any setting bound by BAA + state law + sovereign-data
-              requirements.
+              Therasyn is governance and on-prem infrastructure for clinical AI
+              in environments where cloud-only isn't viable - academic medical
+              centres, hospital systems, pharma clinical research, and any
+              setting bound by BAA + state law + sovereign-data requirements.
             </p>
             <p>
-              The platform is BAA-bound and on-prem capable from day one. It
-              ingests clinical data inside the institution's own perimeter,
-              exposes a queryable analytical layer, and supports AI-native
-              workflows over multimodal clinical records (genomics, pathology,
-              radiology, notes) without that data ever leaving the institution.
+              It is BAA-bound and on-prem capable from day one. Health systems
+              run AI inside their own perimeter - with audit trails, PHI
+              controls, and required sign-off enforced by construction - over
+              multimodal clinical records (genomics, pathology, radiology,
+              notes), without that data ever leaving the institution.
             </p>
             <p>
               For Therasyn the binding constraint is never "does the technology
