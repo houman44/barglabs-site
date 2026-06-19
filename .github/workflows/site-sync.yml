@@ -1,0 +1,79 @@
+name: barglabs.ai site sync proposal
+
+on:
+  schedule:
+    - cron: "17 15 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    name: Propose-only site sync audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run audit tests
+        run: python -m unittest discover -s tests -t . -v
+
+      - name: Best-effort product STATUS checkout
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          mkdir -p ../product-status
+          for repo in alfred egbert edwin therasyn site-machine knut henry edwy simba wilfrid; do
+            gh repo clone "houman44/${repo}" "../product-status/${repo}" -- --depth=1 >/tmp/site-sync-${repo}.log 2>&1
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              echo "::notice::Could not read houman44/${repo}; audit will flag missing evidence if the product appears."
+            fi
+          done
+          exit 0
+
+      - name: Run propose-only audit
+        id: audit
+        env:
+          PRODUCT_STATUS_ROOTS: ${{ github.workspace }}/../product-status
+        run: |
+          set +e
+          python scripts/site_sync_audit.py \
+            --site-root . \
+            --output site-sync-proposal.md \
+            --json-output site-sync-findings.json \
+            --check-live
+          status=$?
+          if [ "$status" -eq 1 ]; then
+            echo "has_drift=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+          echo "has_drift=false" >> "$GITHUB_OUTPUT"
+
+      - name: Refresh proposal issue
+        if: steps.audit.outputs.has_drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="barglabs.ai sync proposal $(date -u +%F)"
+          existing="$(gh issue list \
+            --state open \
+            --search 'barglabs.ai sync proposal in:title' \
+            --json number \
+            --jq '.[0].number // ""')"
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --title "$title" --body-file site-sync-proposal.md
+          else
+            gh issue create --title "$title" --body-file site-sync-proposal.md
+          fi
