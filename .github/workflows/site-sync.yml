@@ -1,5 +1,8 @@
 name: barglabs.ai site sync proposal
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   schedule:
     - cron: "17 15 * * 1"
@@ -15,14 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout site
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
-      - name: Run audit tests
+      - name: Run focused Aelfric tests
         run: python -m unittest discover -s tests -t . -v
 
       - name: Best-effort product STATUS checkout
@@ -31,11 +36,12 @@ jobs:
         run: |
           set +e
           mkdir -p ../product-status
-          for repo in alfred egbert edwin therasyn site-machine knut henry edwy simba wilfrid; do
-            gh repo clone "houman44/${repo}" "../product-status/${repo}" -- --depth=1 >/tmp/site-sync-${repo}.log 2>&1
+          for repo in BargLabs/alfred BargStudio/egbert houman44/edwin houman44/therasyn houman44/site-machine houman44/knut houman44/henry houman44/edwy houman44/simba houman44/wilfrid; do
+            slug="${repo##*/}"
+            gh repo clone "$repo" "../product-status/${slug}" -- --depth=1 >/tmp/site-sync-${slug}.log 2>&1
             status=$?
             if [ "$status" -ne 0 ]; then
-              echo "::notice::Could not read houman44/${repo}; audit will flag missing evidence if the product appears."
+              echo "::notice::Could not read ${repo}; audit will flag missing evidence if the product appears."
             fi
           done
           exit 0
@@ -45,24 +51,14 @@ jobs:
         env:
           PRODUCT_STATUS_ROOTS: ${{ github.workspace }}/../product-status
         run: |
-          set +e
           python scripts/site_sync_audit.py \
-            --site-root . \
+            --root . \
             --output site-sync-proposal.md \
             --json-output site-sync-findings.json \
-            --check-live
-          status=$?
-          if [ "$status" -eq 1 ]; then
-            echo "has_drift=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          if [ "$status" -ne 0 ]; then
-            exit "$status"
-          fi
-          echo "has_drift=false" >> "$GITHUB_OUTPUT"
+            --github-output "$GITHUB_OUTPUT"
 
       - name: Refresh proposal issue
-        if: steps.audit.outputs.has_drift == 'true'
+        if: steps.audit.outputs.drift_found == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
