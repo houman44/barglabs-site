@@ -36,7 +36,7 @@ jobs:
         run: |
           set +e
           mkdir -p ../product-status
-          for repo in BargLabs/alfred BargStudio/egbert houman44/edwin houman44/therasyn houman44/site-machine houman44/knut houman44/henry houman44/edwy houman44/simba houman44/wilfrid; do
+          for repo in houman44/alfred houman44/egbert houman44/edwin houman44/therasyn houman44/site-machine houman44/knut houman44/henry houman44/edwy houman44/simba houman44/wilfrid; do
             slug="${repo##*/}"
             gh repo clone "$repo" "../product-status/${slug}" -- --depth=1 >/tmp/site-sync-${slug}.log 2>&1
             status=$?
