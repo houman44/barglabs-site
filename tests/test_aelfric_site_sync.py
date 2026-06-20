@@ -80,6 +80,84 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertIn("paper-mode", drift[0].evidence)
         self.assertIn("production", drift[0].current_copy)
 
+    def test_detects_product_status_overclaim_across_jsx_lines(self) -> None:
+        root = self.make_workspace(
+            """
+            <ProductSection id="egbert" title="Egbert">
+              <p>
+                Egbert is Barg Labs' B2B Fintech 3.0 infrastructure platform.
+              </p>
+              <p>
+                It moves strategies into production with explicit risk controls.
+              </p>
+            </ProductSection>
+            """,
+            {
+                "egbert": textwrap.dedent(
+                    """
+                    # Egbert Status
+
+                    **Phase:** institutional B2B trading infrastructure; paper-mode founder dogfooding;
+                    Pilot 1 target mid-Sep 2026.
+                    """
+                )
+            },
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products"],
+        )
+
+        drift = [finding for finding in report.findings if finding.code == "product-status-drift"]
+        self.assertEqual(1, len(drift))
+        self.assertEqual("Egbert", drift[0].product)
+        self.assertIn("production", drift[0].current_copy)
+
+    def test_first_reachable_status_source_wins_over_fallback_notes(self) -> None:
+        root = self.make_workspace(
+            """
+            const products = [{
+              name: "Egbert",
+              body: "Egbert is production trading infrastructure.",
+            }];
+            """,
+            {
+                "egbert": textwrap.dedent(
+                    """
+                    # Egbert Status
+
+                    **Phase:** paper-mode founder dogfooding; Pilot 1 target mid-Sep 2026.
+                    """
+                )
+            },
+        )
+        fallback = root / "fallback"
+        fallback.mkdir()
+        fallback_egbert = fallback / "egbert"
+        fallback_egbert.mkdir()
+        (fallback_egbert / "STATUS.md").write_text(
+            """
+            # Egbert fallback notes
+
+            Stale notes without current paper-mode evidence.
+            """,
+            encoding="utf-8",
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products", fallback],
+        )
+
+        drift = [finding for finding in report.findings if finding.code == "product-status-drift"]
+        self.assertEqual(1, len(drift))
+        self.assertIn(str(root / "products" / "egbert" / "STATUS.md"), drift[0].evidence)
+
     def test_missing_status_evidence_is_flagged_for_human_judgment(self) -> None:
         root = self.make_workspace(
             """
@@ -102,6 +180,132 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertEqual(1, len(missing))
         self.assertEqual("Therasyn", missing[0].product)
         self.assertIn("human judgment", missing[0].proposed_copy)
+
+    def test_sparse_status_file_is_not_treated_as_verifiable_evidence(self) -> None:
+        root = self.make_workspace(
+            """
+            const products = [{
+              name: "Therasyn",
+              body: "Therasyn is BAA-bound and on-prem capable from day one.",
+            }];
+            """,
+            {
+                "therasyn": textwrap.dedent(
+                    """
+                    # Therasyn - STATUS
+
+                    ## Blockers
+
+                    _(fill in)_
+                    """
+                )
+            },
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products"],
+        )
+
+        sparse = [finding for finding in report.findings if finding.code == "insufficient-product-evidence"]
+        self.assertEqual(1, len(sparse))
+        self.assertEqual("Therasyn", sparse[0].product)
+        self.assertIn("human judgment", sparse[0].proposed_copy)
+
+    def test_rich_status_with_todo_language_still_counts_when_stage_is_evidenced(self) -> None:
+        root = self.make_workspace(
+            """
+            const products = [{
+              name: "Alfred",
+              body: "Alfred Console is live for mission-control operators.",
+            }];
+            """,
+            {
+                "alfred": textwrap.dedent(
+                    """
+                    # Alfred Status
+
+                    One-line state: Console live at mission-control; operator surface is shipped.
+                    Follow-up TODO language exists in this repo-brain, but it is not a placeholder.
+                    """
+                )
+            },
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products"],
+        )
+
+        self.assertFalse(
+            [
+                finding
+                for finding in report.findings
+                if finding.code == "insufficient-product-evidence" and finding.product == "Alfred"
+            ]
+        )
+
+    def test_detects_full_roster_status_overclaim_against_status_file(self) -> None:
+        root = self.make_workspace(
+            """
+            const products = [{
+              name: "Wilfrid",
+              body: "Wilfrid is live in production with customer traction.",
+            }];
+            """,
+            {
+                "wilfrid": textwrap.dedent(
+                    """
+                    # Wilfrid Status
+
+                    One-line state: customer-zero student workflow; pre-MVP scaffold.
+                    """
+                )
+            },
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products"],
+        )
+
+        drift = [finding for finding in report.findings if finding.code == "product-status-drift"]
+        self.assertEqual(1, len(drift))
+        self.assertEqual("Wilfrid", drift[0].product)
+        self.assertIn("pre-MVP", drift[0].evidence)
+        self.assertIn("production", drift[0].current_copy)
+
+    def test_detects_wrong_product_link_across_jsx_object_lines(self) -> None:
+        root = self.make_workspace(
+            """
+            const products = [
+              {
+                name: "Egbert",
+                href: "https://barglabs.ai/egbert",
+                displayUrl: "barglabs.ai/egbert",
+              },
+            ];
+            """,
+            {},
+        )
+
+        report = run_target_audit(
+            "barglabs",
+            root,
+            fetch_live=False,
+            product_roots=[root / "products"],
+        )
+
+        wrong_links = [finding for finding in report.findings if finding.code == "wrong-product-link"]
+        self.assertEqual(1, len(wrong_links))
+        self.assertEqual("Egbert", wrong_links[0].product)
+        self.assertIn("https://egbert.io", wrong_links[0].proposed_copy)
 
     def test_portfolio_feed_is_preferred_over_status_fallback(self) -> None:
         root = self.make_workspace(
@@ -176,6 +380,10 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh pr", workflow)
         self.assertNotIn("actions/create-github-app-token", workflow)
+        self.assertIn("houman44/alfred", workflow)
+        self.assertIn("houman44/egbert", workflow)
+        self.assertNotIn("BargLabs/alfred", workflow)
+        self.assertNotIn("BargStudio/egbert", workflow)
 
 
 if __name__ == "__main__":

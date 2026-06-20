@@ -570,12 +570,41 @@ PRODUCT_EXPECTATIONS = {
         "overclaim_terms": ("b2b", "customer traction", "public fund", "aum"),
     },
     "Therasyn": {
-        "allowed_status_terms": ("parked", "pending md", "md co-founder", "clinical"),
+        "allowed_status_terms": (
+            "parked",
+            "pending md",
+            "md co-founder",
+            "clinical",
+            "no revenue",
+            "no signed",
+            "no live deployment",
+            "hypothesis",
+        ),
         "overclaim_terms": ("live", "customer", "production", "baa-bound", "on-prem capable from day one", "health systems can run"),
     },
     "Sara": {
         "allowed_status_terms": ("site-machine", "mvp", "pilot", "landing-page", "website generation"),
         "overclaim_terms": ("fully shipped", "production customers", "traction"),
+    },
+    "Knut": {
+        "allowed_status_terms": ("pre-mvp", "pre mvp", "scaffold", "f&f", "friends and family", "post-f&f"),
+        "overclaim_terms": ("live", "production", "customer", "customers", "traction", "fully shipped"),
+    },
+    "Henry": {
+        "allowed_status_terms": ("pre-mvp", "pre mvp", "scaffold", "f&f", "friends and family", "post-f&f"),
+        "overclaim_terms": ("live", "production", "customer", "customers", "traction", "fully shipped"),
+    },
+    "Edwy": {
+        "allowed_status_terms": ("portal", "public", "primer", "literacy", "post-f&f", "pre-mvp", "pre mvp"),
+        "overclaim_terms": ("production customers", "customer traction", "paid", "enterprise", "fully shipped"),
+    },
+    "Simba": {
+        "allowed_status_terms": ("internal", "nima", "scaffold", "pre-mvp", "pre mvp", "studio"),
+        "overclaim_terms": ("live", "production", "customer", "customers", "traction", "fully shipped"),
+    },
+    "Wilfrid": {
+        "allowed_status_terms": ("customer-zero", "student", "pre-mvp", "pre mvp", "scaffold", "accounting"),
+        "overclaim_terms": ("live", "production", "customer traction", "paid", "fully shipped"),
     },
 }
 
@@ -583,7 +612,7 @@ PRODUCT_EXPECTATIONS = {
 def _check_barglabs_product_status(site_hits: tuple[TextHit, ...], sources: tuple[SourceEvidence, ...], products: Sequence[str]) -> list[Finding]:
     site_text = "\n".join(hit.line for hit in site_hits)
     mentioned = [canonical_product(product) for product in products if re.search(rf"\b{re.escape(product)}\b", site_text, re.I)]
-    source_by_product = {_product_key(source.product): source for source in sources}
+    source_by_product = _first_source_by_product(sources)
     findings: list[Finding] = []
     for product in mentioned:
         source = source_by_product.get(_product_key(product))
@@ -601,7 +630,21 @@ def _check_barglabs_product_status(site_hits: tuple[TextHit, ...], sources: tupl
                 )
             )
             continue
-        for hit in _lines_for_product(site_hits, product):
+        if not _status_has_verifiable_signal(product, source.status_text):
+            findings.append(
+                Finding(
+                    code="insufficient-product-evidence",
+                    drift_class="SOURCE",
+                    severity="medium",
+                    location="product evidence",
+                    current_copy=f"{product} has STATUS/portfolio evidence, but it does not contain a verifiable shipped-state signal.",
+                    proposed_copy=f"Flag {product} for human judgment until STATUS.md or Alfred operator-summary evidence states its current stage.",
+                    evidence=source.evidence,
+                    product=product,
+                )
+            )
+            continue
+        for hit in _candidate_lines_for_product(site_hits, product):
             overclaim = _product_overclaim(product, hit.line, source.status_text)
             if overclaim:
                 findings.append(
@@ -618,6 +661,13 @@ def _check_barglabs_product_status(site_hits: tuple[TextHit, ...], sources: tupl
                 )
                 break
     return findings
+
+
+def _first_source_by_product(sources: tuple[SourceEvidence, ...]) -> dict[str, SourceEvidence]:
+    source_by_product: dict[str, SourceEvidence] = {}
+    for source in sources:
+        source_by_product.setdefault(_product_key(source.product), source)
+    return source_by_product
 
 
 def _check_links(site_hits: tuple[TextHit, ...], *, fetch_http: bool) -> list[Finding]:
@@ -658,7 +708,44 @@ def _check_links(site_hits: tuple[TextHit, ...], *, fetch_http: bool) -> list[Fi
                         product=product,
                     )
                 )
+    for product, href, location in _extract_product_link_context(site_hits):
+        expected_href = expected_links.get(product)
+        if expected_href and href != expected_href:
+            findings.append(
+                Finding(
+                    code="wrong-product-link",
+                    drift_class="LINKS",
+                    severity="medium",
+                    location=location,
+                    current_copy=f"{product} links to {href}.",
+                    proposed_copy=f"Point {product} CTA/card link to {expected_href} or flag why it is intentionally absent.",
+                    evidence=f"Expected product URL mapping: {product} -> {expected_href}.",
+                    product=product,
+                )
+            )
     return findings
+
+
+def _extract_product_link_context(site_hits: tuple[TextHit, ...]) -> list[tuple[str, str, str]]:
+    products = ("Alfred", "Egbert", "Therasyn", "Sara", "Knut", "Henry", "Edwy", "Simba", "Wilfrid")
+    contexts: list[tuple[str, str, str]] = []
+    current_product: str | None = None
+    product_line = 0
+    for hit in site_hits:
+        for product in products:
+            if re.search(rf"\b(?:name|title)\s*[:=]\s*[\"']{re.escape(product)}[\"']", hit.line):
+                current_product = product
+                product_line = hit.line_number
+                break
+        hrefs = re.findall(r"href\s*[:=]\s*[\"']([^\"']+)[\"']", hit.line)
+        if current_product and hrefs and hit.line_number - product_line <= 8:
+            for href in hrefs:
+                if href.startswith(("http://", "https://")):
+                    contexts.append((current_product, href, hit.location))
+            current_product = None
+        if current_product and hit.line_number - product_line > 8:
+            current_product = None
+    return contexts
 
 
 def _check_http_link(location: str, href: str) -> list[Finding]:
@@ -804,6 +891,24 @@ def _lines_for_product(site_hits: tuple[TextHit, ...], product: str) -> list[Tex
     return [hit for hit in site_hits if re.search(rf"\b{re.escape(product)}\b", hit.line, re.I)]
 
 
+def _candidate_lines_for_product(site_hits: tuple[TextHit, ...], product: str) -> list[TextHit]:
+    candidates: list[TextHit] = []
+    seen: set[tuple[str, int]] = set()
+    hits_by_path: dict[str, list[TextHit]] = {}
+    for hit in site_hits:
+        hits_by_path.setdefault(hit.path, []).append(hit)
+    for hits in hits_by_path.values():
+        for index, hit in enumerate(hits):
+            if not re.search(rf"\b{re.escape(product)}\b", hit.line, re.I):
+                continue
+            for candidate in hits[index : index + 8]:
+                key = (candidate.path, candidate.line_number)
+                if key not in seen:
+                    seen.add(key)
+                    candidates.append(candidate)
+    return candidates
+
+
 def _product_overclaim(product: str, copy: str, status_text: str) -> bool:
     expectation = PRODUCT_EXPECTATIONS.get(product, {})
     copy_lower = copy.lower()
@@ -815,6 +920,31 @@ def _product_overclaim(product: str, copy: str, status_text: str) -> bool:
     return bool(not allowed_terms or any(term in status_lower for term in allowed_terms))
 
 
+def _status_has_verifiable_signal(product: str, status_text: str) -> bool:
+    normalized = status_text.lower()
+    if len(_clean_line(status_text)) < 80:
+        return False
+    if any(marker in normalized for marker in ("fill in", "_(")):
+        return False
+    expectation = PRODUCT_EXPECTATIONS.get(product)
+    if expectation:
+        return any(term in normalized for term in expectation.get("allowed_status_terms", ()))
+    return any(
+        marker in normalized
+        for marker in (
+            "one-line state",
+            "phase",
+            "status",
+            "pilot",
+            "pre-mvp",
+            "scaffold",
+            "live",
+            "parked",
+            "blocked",
+        )
+    )
+
+
 def _proposed_status_copy(product: str, status_text: str) -> str:
     status_lower = status_text.lower()
     if product == "Egbert" and "paper" in status_lower:
@@ -823,6 +953,20 @@ def _proposed_status_copy(product: str, status_text: str) -> str:
         return "Describe Alfred as Console/operator surface live, without implying all portfolio products run on a completed substrate."
     if product == "Therasyn" and ("parked" in status_lower or "md" in status_lower):
         return "Describe Therasyn as parked/pending MD co-founder or clinical governance thesis work; do not imply live health-system production."
+    if product == "Edwin":
+        return "Describe Edwin as Houman's personal trading system with strict go-live gates; do not imply a B2B product, fund, or broad customer traction."
+    if product == "Sara":
+        return "Describe Sara as the site-machine / landing-page generation product surface; do not imply production customers or broad traction."
+    if product == "Knut":
+        return "Describe Knut at its cited pre-MVP or post-F&F stage; do not imply production, customers, or traction."
+    if product == "Henry":
+        return "Describe Henry at its cited pre-MVP or post-F&F stage; do not imply production, customers, or traction."
+    if product == "Edwy":
+        return "Describe Edwy as the cited vertical AI-literacy portal/stage; do not imply paid adoption or production customer traction."
+    if product == "Simba":
+        return "Describe Simba as an internal/customer-zero studio or scaffold until STATUS evidence says otherwise."
+    if product == "Wilfrid":
+        return "Describe Wilfrid as a customer-zero student workflow or pre-MVP scaffold until STATUS evidence says otherwise."
     return f"Align {product} wording to cited STATUS or Alfred operator-summary evidence; flag uncertain positioning for human review."
 
 
