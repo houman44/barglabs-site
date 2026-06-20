@@ -8,6 +8,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 for candidate in (
     os.environ.get("AELFRIC_ENGINE_PATH"),
+    root,
     root / "aelfric-engine",
     root.parent / "aelfric-engine",
     root.parent / "alfred",

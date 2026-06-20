@@ -389,18 +389,20 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh pr", workflow)
         self.assertNotIn("actions/create-github-app-token", workflow)
-        self.assertIn("houman44/alfred", workflow)
         self.assertIn("houman44/egbert", workflow)
+        self.assertNotIn("repository: houman44/alfred", workflow)
         self.assertNotIn("BargLabs/alfred", workflow)
         self.assertNotIn("BargStudio/egbert", workflow)
 
-    def test_repo_consumes_shared_aelfric_engine_without_vendored_logic(self) -> None:
+    def test_repo_uses_vendored_engine_without_private_cross_repo_checkout(self) -> None:
         workflow = (REPO_ROOT / ".github/workflows/site-sync.yml").read_text(encoding="utf-8")
 
-        self.assertFalse((REPO_ROOT / "aelfric_site_sync" / "engine.py").exists())
-        self.assertIn("Checkout shared Aelfric engine", workflow)
-        self.assertIn("AELFRIC_ENGINE_PATH", workflow)
-        self.assertIn("PYTHONPATH", workflow)
+        self.assertTrue((REPO_ROOT / "aelfric_site_sync" / "__main__.py").exists())
+        self.assertTrue((REPO_ROOT / "aelfric_site_sync" / "engine.py").exists())
+        self.assertIn("TARGET_REGISTRY", (REPO_ROOT / "aelfric_site_sync" / "engine.py").read_text(encoding="utf-8"))
+        self.assertNotIn("Checkout shared Aelfric engine", workflow)
+        self.assertNotIn("AELFRIC_ENGINE_PATH", workflow)
+        self.assertNotIn("PYTHONPATH", workflow)
 
 
 if __name__ == "__main__":
