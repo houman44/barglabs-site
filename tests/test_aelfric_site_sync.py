@@ -1,10 +1,21 @@
 from __future__ import annotations
 
 import json
+import os
+import sys
 import tempfile
 import textwrap
 import unittest
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+engine_root = os.environ.get("AELFRIC_ENGINE_PATH")
+if engine_root:
+    sys.path.insert(0, engine_root)
+else:
+    shared_engine = REPO_ROOT.parent / "aelfric-engine"
+    if shared_engine.exists():
+        sys.path.insert(0, str(shared_engine))
 
 from aelfric_site_sync import run_target_audit
 
@@ -369,9 +380,7 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertIn("Evidence", markdown)
 
     def test_weekly_workflow_is_issue_only_and_least_privilege(self) -> None:
-        workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/site-sync.yml").read_text(
-            encoding="utf-8"
-        )
+        workflow = (REPO_ROOT / ".github/workflows/site-sync.yml").read_text(encoding="utf-8")
 
         self.assertIn("contents: read", workflow)
         self.assertIn("issues: write", workflow)
@@ -380,10 +389,20 @@ class AelfricSiteSyncTests(unittest.TestCase):
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh pr", workflow)
         self.assertNotIn("actions/create-github-app-token", workflow)
-        self.assertIn("houman44/alfred", workflow)
         self.assertIn("houman44/egbert", workflow)
+        self.assertNotIn("repository: houman44/alfred", workflow)
         self.assertNotIn("BargLabs/alfred", workflow)
         self.assertNotIn("BargStudio/egbert", workflow)
+
+    def test_repo_uses_vendored_engine_without_private_cross_repo_checkout(self) -> None:
+        workflow = (REPO_ROOT / ".github/workflows/site-sync.yml").read_text(encoding="utf-8")
+
+        self.assertTrue((REPO_ROOT / "aelfric_site_sync" / "__main__.py").exists())
+        self.assertTrue((REPO_ROOT / "aelfric_site_sync" / "engine.py").exists())
+        self.assertIn("TARGET_REGISTRY", (REPO_ROOT / "aelfric_site_sync" / "engine.py").read_text(encoding="utf-8"))
+        self.assertNotIn("Checkout shared Aelfric engine", workflow)
+        self.assertNotIn("AELFRIC_ENGINE_PATH", workflow)
+        self.assertNotIn("PYTHONPATH", workflow)
 
 
 if __name__ == "__main__":

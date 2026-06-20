@@ -36,6 +36,30 @@ PRODUCT_ALIASES = {"sara": ("sara", "site-machine", "site_machine")}
 
 
 @dataclasses.dataclass(frozen=True)
+class TargetConfig:
+    key: str
+    aliases: tuple[str, ...]
+    site_url: str
+    repo: str
+
+
+TARGET_REGISTRY: dict[str, TargetConfig] = {
+    "egbert": TargetConfig(
+        key="egbert",
+        aliases=("egbert", "egbert.io"),
+        site_url="https://egbert.io",
+        repo="BargStudio/egbert",
+    ),
+    "barglabs": TargetConfig(
+        key="barglabs",
+        aliases=("barglabs", "barglabs.ai", "barglabs-site"),
+        site_url="https://barglabs.ai",
+        repo="houman44/barglabs-site",
+    ),
+}
+
+
+@dataclasses.dataclass(frozen=True)
 class TextHit:
     path: str
     line_number: int
@@ -155,10 +179,10 @@ def run_target_audit(
     products: Sequence[str] = DEFAULT_PRODUCTS,
 ) -> AuditReport:
     root = root.resolve()
-    normalized_target = target.strip().lower()
-    if normalized_target in {"egbert", "egbert.io"}:
+    target_config = _resolve_target_config(target)
+    if target_config.key == "egbert":
         return _run_egbert(root, fetch_live=fetch_live, portfolio_feed=portfolio_feed)
-    if normalized_target in {"barglabs", "barglabs.ai", "barglabs-site"}:
+    if target_config.key == "barglabs":
         return _run_barglabs(
             root,
             fetch_live=fetch_live,
@@ -166,6 +190,14 @@ def run_target_audit(
             portfolio_feed=portfolio_feed,
             products=products,
         )
+    raise ValueError(f"Unknown Aelfric target: {target}")
+
+
+def _resolve_target_config(target: str) -> TargetConfig:
+    normalized_target = target.strip().lower()
+    for config in TARGET_REGISTRY.values():
+        if normalized_target in config.aliases:
+            return config
     raise ValueError(f"Unknown Aelfric target: {target}")
 
 
