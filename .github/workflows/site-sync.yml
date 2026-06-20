@@ -22,12 +22,22 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout shared Aelfric engine
+        uses: actions/checkout@v5
+        with:
+          repository: houman44/alfred
+          path: aelfric-engine
+          persist-credentials: false
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Run focused Aelfric tests
+        env:
+          AELFRIC_ENGINE_PATH: ${{ github.workspace }}/aelfric-engine
+          PYTHONPATH: ${{ github.workspace }}/aelfric-engine
         run: python -m unittest discover -s tests -t . -v
 
       - name: Best-effort product STATUS checkout
@@ -49,6 +59,8 @@ jobs:
       - name: Run propose-only audit
         id: audit
         env:
+          AELFRIC_ENGINE_PATH: ${{ github.workspace }}/aelfric-engine
+          PYTHONPATH: ${{ github.workspace }}/aelfric-engine
           PRODUCT_STATUS_ROOTS: ${{ github.workspace }}/../product-status
         run: |
           python scripts/site_sync_audit.py \
