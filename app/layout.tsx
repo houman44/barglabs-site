@@ -3,7 +3,7 @@ import "./globals.css";
 export const metadata = {
   title: "Barg Labs",
   description:
-    "Barg Labs builds Alfred, Egbert, Therasyn, Sara, and Edwy — five applied AI products for studios, markets, regulated health systems, the web, and AI literacy.",
+    "Barg Labs builds Alfred, Egbert, and Therasyn — three applied AI products for studios, markets, and regulated health systems.",
 };
 
 export default function RootLayout({

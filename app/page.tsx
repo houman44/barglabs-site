@@ -18,8 +18,6 @@ const navItems = [
   ["Alfred", "#alfred"],
   ["Egbert", "#egbert"],
   ["Therasyn", "#therasyn"],
-  ["Sara", "#sara"],
-  ["Edwy", "#edwy"],
 ] as const;
 
 type Product = {
@@ -34,8 +32,8 @@ const products: Product[] = [
   {
     name: "Alfred",
     title: "Operator OS for AI-native studios",
-    href: "https://alfred.barglabs.ai/mission-control",
-    displayUrl: "alfred.barglabs.ai/mission-control",
+    href: "https://alfred.barglabs.ai",
+    displayUrl: "alfred.barglabs.ai",
     body: "An operating surface for AI-native studios: missions, systems, teams, and live operating context in one place.",
   },
   {
@@ -51,18 +49,6 @@ const products: Product[] = [
     href: "https://therasyn.ai",
     displayUrl: "therasyn.ai",
     body: "Governance and deployment infrastructure for clinical AI in environments where cloud-only isn't an option — academic medical centres, regulated health systems, and pharma research. BAA-bound by design, on-prem capable from day one. Built so health systems can run AI inside their own perimeter, with audit, PHI controls, and required sign-off enforced by construction.",
-  },
-  {
-    name: "Sara",
-    title: "Site-machine for agentic website generation",
-    body: "A product surface for generating and operating agentic websites with the polish, control, and iteration loop serious web work needs.",
-  },
-  {
-    name: "Edwy",
-    title: "Vertical AI literacy",
-    href: "https://edwy.barglabs.ai",
-    displayUrl: "edwy.barglabs.ai",
-    body: "A free public portal that explains AI agents, autonomy, and vertical applications to the curious-but-not-yet-buying - operators, clinicians, finance professionals, engineers, and the people who are about to be. Built as the Barg Labs lens on what AI literacy at the vertical level actually looks like.",
   },
 ];
 
@@ -189,7 +175,7 @@ export default function Page() {
             <motion.div {...fade} className="max-w-3xl">
               <div className="mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-sky-200/80">
                 <span className="h-px w-8 bg-sky-200/45" />
-                Alfred. Egbert - Fintech 3.0. Therasyn. Sara. Edwy.
+                Alfred. Egbert - Fintech 3.0. Therasyn.
               </div>
 
               <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
@@ -198,17 +184,13 @@ export default function Page() {
 
               <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-white/74">
                 <p>
-                  The company currently centers on five product lines:{" "}
+                  The company currently centers on three product lines:{" "}
                   <span className="font-semibold text-white">Alfred</span>, the
                   operator OS for AI-native studios;{" "}
                   <span className="font-semibold text-white">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
-                  <span className="font-semibold text-white">Therasyn</span>,
-                  governance and on-prem infrastructure for clinical AI;{" "}
-                  <span className="font-semibold text-white">Sara</span>, the
-                  site-machine product for agentic website generation; and{" "}
-                  <span className="font-semibold text-white">Edwy</span>, a
-                  vertical AI-literacy portal.
+                  and <span className="font-semibold text-white">Therasyn</span>,
+                  governance and on-prem infrastructure for clinical AI.
                 </p>
               </div>
             </motion.div>
@@ -226,8 +208,8 @@ export default function Page() {
                 priority
               />
               <p className="mt-6 text-sm leading-7 text-white/68">
-                Applied AI products for studios, markets, regulated health
-                systems, the web, and AI literacy.
+                Applied AI products for studios, markets, and regulated health
+                systems.
               </p>
             </motion.div>
           </div>
@@ -243,12 +225,12 @@ export default function Page() {
                 </h2>
               </div>
               <p className="hidden max-w-md text-sm leading-6 text-white/48 md:block">
-                Five focused surfaces, each built around a concrete operating
+                Three focused surfaces, each built around a concrete operating
                 environment.
               </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
                 <ProductCard key={product.name} product={product} />
               ))}
@@ -284,7 +266,7 @@ export default function Page() {
           <ProductSection
             id="alfred"
             title="Alfred"
-            href="https://alfred.barglabs.ai/mission-control"
+            href="https://alfred.barglabs.ai"
           >
             <p>
               Alfred is the operator OS for AI-native studios: a working surface
@@ -299,10 +281,10 @@ export default function Page() {
             <p>
               Live operator surface available at{" "}
               <a
-                href="https://alfred.barglabs.ai/mission-control"
+                href="https://alfred.barglabs.ai"
                 className="font-medium text-amber-200 transition hover:text-amber-100"
               >
-                alfred.barglabs.ai/mission-control
+                alfred.barglabs.ai
               </a>
               .
             </p>
@@ -340,43 +322,6 @@ export default function Page() {
               For Therasyn the binding constraint is never "does the technology
               work" - it is "can the technology live where the data has to
               live." Therasyn is built for exactly that constraint.
-            </p>
-          </ProductSection>
-
-          <ProductSection id="sara" title="Sara">
-            <p>
-              Sara is the site-machine product for agentic website generation:
-              a way to generate, shape, and operate web surfaces with a product
-              loop around quality, context, and iteration.
-            </p>
-            <p>
-              It focuses on the practical web work behind useful sites: content,
-              structure, interaction, polish, and the next version after the
-              first one ships.
-            </p>
-          </ProductSection>
-
-          <ProductSection id="edwy" title="Edwy" href="https://edwy.barglabs.ai">
-            <p>
-              Edwy is a vertical AI-literacy portal - a free public surface that
-              explains agents, autonomy, and vertical applications to the people
-              about to encounter them. Clinicians wondering what's actually
-              possible inside their workflow. Finance professionals trying to
-              evaluate vendor pitches without prior context. Engineers in
-              regulated industries who need a quick read on AI safety
-              discipline.
-            </p>
-            <p>
-              Edwy ships short primers organised by vertical, with worked
-              examples grounded in real product use. The point is not to sell
-              anything. The point is to give the audience the reading they need
-              to evaluate AI critically - their own situations, their own
-              constraints, their own decisions.
-            </p>
-            <p>
-              If Edwy works, it does two things: it raises the floor on AI
-              literacy in regulated verticals, and it becomes the natural
-              reading path for anyone who later wonders what Barg Labs builds.
             </p>
           </ProductSection>
 
