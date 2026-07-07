@@ -16,6 +16,7 @@ const navItems = [
   ["Approach", "#approach"],
   ["Leadership", "#leadership"],
   ["Alfred", "#alfred"],
+  ["Cejel", "#cejel"],
   ["Egbert", "#egbert"],
   ["Therasyn", "#therasyn"],
 ] as const;
@@ -35,6 +36,11 @@ const products: Product[] = [
     href: "https://alfred.barglabs.ai",
     displayUrl: "alfred.barglabs.ai",
     body: "An operating surface for AI-native studios: missions, systems, teams, and live operating context in one place.",
+  },
+  {
+    name: "Cejel",
+    title: "Trust certificate for AI-written code",
+    body: "A free, offline CLI that scores how trustworthy a codebase is — tests, secrets, isolation, CI and audit discipline — and folds your existing scanners (Snyk, Semgrep, OpenSSF Scorecard) into one portable, shareable certificate. Especially useful when AI wrote a lot of the code.",
   },
   {
     name: "Egbert",
@@ -175,7 +181,7 @@ export default function Page() {
             <motion.div {...fade} className="max-w-3xl">
               <div className="mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-sky-200/80">
                 <span className="h-px w-8 bg-sky-200/45" />
-                Alfred. Egbert - Fintech 3.0. Therasyn.
+                Alfred. Cejel. Egbert — Fintech 3.0. Therasyn.
               </div>
 
               <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
@@ -184,9 +190,11 @@ export default function Page() {
 
               <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-white/74">
                 <p>
-                  The company currently centers on three product lines:{" "}
+                  The company centers on four product lines:{" "}
                   <span className="font-semibold text-white">Alfred</span>, the
                   operator OS for AI-native studios;{" "}
+                  <span className="font-semibold text-white">Cejel</span>, a trust
+                  certificate for AI-written code;{" "}
                   <span className="font-semibold text-white">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
                   and <span className="font-semibold text-white">Therasyn</span>,
@@ -225,7 +233,7 @@ export default function Page() {
                 </h2>
               </div>
               <p className="hidden max-w-md text-sm leading-6 text-white/48 md:block">
-                Three focused surfaces, each built around a concrete operating
+                Four focused surfaces, each built around a concrete operating
                 environment.
               </p>
             </div>
@@ -287,6 +295,28 @@ export default function Page() {
                 alfred.barglabs.ai
               </a>
               .
+            </p>
+          </ProductSection>
+
+          <ProductSection id="cejel" title="Cejel">
+            <p>
+              Cejel is a trust certificate for AI-written code: a free, offline
+              command-line tool that scores the engineering signals that tell you
+              whether to trust a repository - tests, secret hygiene, isolation,
+              claim-vs-reality, and CI and audit discipline - and prints a portable
+              certificate.
+            </p>
+            <p>
+              Rather than competing with the scanner you already run, Cejel
+              aggregates them. Pipe in SARIF from Snyk, Semgrep, or CodeQL, plus
+              OpenSSF Scorecard, and get one shareable, rubric-scored certificate
+              over all of them, with every contributing tool attributed. It is
+              especially useful when AI wrote a lot of the code - exactly when trust
+              can't be eyeballed.
+            </p>
+            <p>
+              Open-source and source-available. Runs fully offline, with no signup
+              and no model call.
             </p>
           </ProductSection>
 
