@@ -32,10 +32,10 @@ type Product = {
 const products: Product[] = [
   {
     name: "Alfred",
-    title: "Operator OS for AI-native studios",
+    title: "The company brain that executes",
     href: "https://alfred.barglabs.ai",
     displayUrl: "alfred.barglabs.ai",
-    body: "An operating surface for AI-native studios: missions, systems, teams, and live operating context in one place.",
+    body: "The operator OS that runs a studio — or a whole portfolio — on AI, safely: hard isolation between products, governed execution that proposes but never ships on its own, verified memory, and a trust certificate for everything the AI builds. Cloud or fully on-prem.",
   },
   {
     name: "Cejel",
@@ -47,7 +47,7 @@ const products: Product[] = [
     title: "B2B Fintech 3.0 infrastructure",
     href: "https://egbert.io",
     displayUrl: "egbert.io",
-    body: "Infrastructure for validating trading strategies and moving them from research to governed paper pilots and production — with explicit risk controls, full attribution, and human oversight.",
+    body: "Infrastructure for validating trading strategies and moving them from research to governed paper pilots and production — with explicit risk controls, full attribution, and human oversight. Includes Edred, an autonomous strategy and model-health agent that proposes tuning as human-reviewed changes — propose-only, never trading on its own.",
   },
   {
     name: "Therasyn",
@@ -62,15 +62,17 @@ function Section({
   id,
   title,
   children,
+  logo,
 }: {
   id: string;
   title: string;
   children: React.ReactNode;
+  logo?: React.ReactNode;
 }) {
   return (
     <motion.section id={id} {...fade} className="scroll-mt-28 py-14 sm:py-18">
       <div className="mb-7 flex items-center gap-4">
-        <div className="h-px w-10 bg-white/25" />
+        {logo ?? <div className="h-px w-10 bg-white/25" />}
         <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
           {title}
         </h2>
@@ -110,14 +112,16 @@ function ProductSection({
   title,
   children,
   href,
+  logo,
 }: {
   id: string;
   title: string;
   children: React.ReactNode;
   href?: string;
+  logo?: React.ReactNode;
 }) {
   return (
-    <Section id={id} title={title}>
+    <Section id={id} title={title} logo={logo}>
       {children}
       {href ? (
         <p>
@@ -277,14 +281,22 @@ export default function Page() {
             href="https://alfred.barglabs.ai"
           >
             <p>
-              Alfred is the operator OS for AI-native studios: a working surface
-              for missions, product lines, system state, and the decisions that
-              keep a studio moving.
+              Alfred is the company brain that executes — the operator OS that
+              runs a company, or a whole portfolio, on AI, safely. As agents do
+              more of the building and operating, the blocker is trust; Alfred is
+              the layer that makes it safe.
             </p>
             <p>
-              It is built for teams that need their operating context close to
-              the work itself, with structure around what is being built, why it
-              matters, and what needs attention next.
+              It runs on hard per-product isolation (one product's secrets never
+              touch another's), governed execution (agents open reviewed changes
+              and run operations but never merge, deploy, or leak, with a full
+              audit trail), and verified memory that only trusts what a real
+              outcome proved. Cejel, its trust certificate, verifies what the AI
+              builds before it ships.
+            </p>
+            <p>
+              Cloud or fully on-prem — including on a local model — so a regulated
+              studio can run everything inside its own walls.
             </p>
             <p>
               Live operator surface available at{" "}
@@ -316,11 +328,25 @@ export default function Page() {
             </p>
             <p>
               Open-source and source-available. Runs fully offline, with no signup
-              and no model call.
+              and no model call. A watermarked, air-gapped build runs fully
+              on-prem for regulated teams.
             </p>
           </ProductSection>
 
-          <ProductSection id="egbert" title="Egbert" href="https://egbert.io">
+          <ProductSection
+            id="egbert"
+            title="Egbert"
+            href="https://egbert.io"
+            logo={
+              <Image
+                src="/egbert-mark.png"
+                alt="Egbert"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+            }
+          >
             <p>
               Egbert is Barg Labs' B2B Fintech 3.0 infrastructure platform for
               validating trading strategies and moving them from research to
@@ -331,6 +357,13 @@ export default function Page() {
               It is designed for real execution, monitoring, and controlled
               rollout, so strategy work can move from analysis into action
               without becoming an opaque black box.
+            </p>
+            <p>
+              Egbert includes Edred, an autonomous strategy and model-health
+              agent: it reads live model and trading signals, proposes parameter
+              tuning and re-weighting as human-reviewed changes, and flags
+              model-health issues — propose-only, fully audited, and gated by
+              human approval. It never trades or changes strategy on its own.
             </p>
           </ProductSection>
 
