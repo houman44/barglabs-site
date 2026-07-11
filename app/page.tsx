@@ -39,8 +39,8 @@ const products: Product[] = [
   },
   {
     name: "Cejel",
-    title: "Trust certificate for AI-written code",
-    body: "A free, offline CLI that scores how trustworthy a codebase is — tests, secrets, isolation, CI and audit discipline — and folds your existing scanners (Snyk, Semgrep, OpenSSF Scorecard) into one portable, shareable certificate. Especially useful when AI wrote a lot of the code.",
+    title: "A trust certificate for code",
+    body: "A free, offline CLI that scores how trustworthy any codebase is, in any language — tests, secrets, isolation, CI and audit discipline — folding your existing scanners (Snyk, Semgrep, OpenSSF Scorecard) into one portable, shareable certificate. Especially useful for AI-written code — and any code you didn't write yourself, like an acquisition or a legacy system — where trust can't be eyeballed.",
   },
   {
     name: "Egbert",
@@ -196,9 +196,9 @@ export default function Page() {
                 <p>
                   The company centers on four product lines:{" "}
                   <span className="font-semibold text-white">Alfred</span>, the
-                  operator OS for AI-native studios;{" "}
+                  company brain that executes;{" "}
                   <span className="font-semibold text-white">Cejel</span>, a trust
-                  certificate for AI-written code;{" "}
+                  certificate for code;{" "}
                   <span className="font-semibold text-white">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
                   and <span className="font-semibold text-white">Therasyn</span>,
@@ -312,19 +312,21 @@ export default function Page() {
 
           <ProductSection id="cejel" title="Cejel">
             <p>
-              Cejel is a trust certificate for AI-written code: a free, offline
-              command-line tool that scores the engineering signals that tell you
-              whether to trust a repository - tests, secret hygiene, isolation,
-              claim-vs-reality, and CI and audit discipline - and prints a portable
-              certificate.
+              Cejel is a trust certificate for code — any codebase, in any
+              language, whoever or whatever wrote it. It is a free, offline
+              command-line tool that
+              scores the engineering signals that tell you whether to trust a
+              repository - tests, secret hygiene, isolation, claim-vs-reality, and
+              CI and audit discipline - and prints a portable certificate.
             </p>
             <p>
               Rather than competing with the scanner you already run, Cejel
               aggregates them. Pipe in SARIF from Snyk, Semgrep, or CodeQL, plus
               OpenSSF Scorecard, and get one shareable, rubric-scored certificate
               over all of them, with every contributing tool attributed. It is
-              especially useful when AI wrote a lot of the code - exactly when trust
-              can't be eyeballed.
+              especially useful for AI-written code, and for any code you didn't
+              write yourself - an acquisition, or an inherited legacy system -
+              exactly when trust can't be eyeballed.
             </p>
             <p>
               Open-source and source-available. Runs fully offline, with no signup
