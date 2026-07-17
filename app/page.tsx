@@ -39,22 +39,22 @@ const products: Product[] = [
   },
   {
     name: "Alfred",
-    title: "The company brain that executes",
+    title: "The company brain that executes — through governed, human-approved actions",
     href: "https://alfred.barglabs.ai",
     displayUrl: "alfred.barglabs.ai",
     body: "The operator OS that runs a studio — or a whole portfolio — on AI, safely: hard isolation between products, governed execution that proposes but never ships on its own, verified memory, and a trust certificate for everything the AI builds. Cloud or fully on-prem.",
   },
   {
     name: "Egbert",
-    title: "Governance for autonomous systematic trading",
-    icon: "/egbert-mark-cejel.png",
+    title: "B2B Fintech 3.0 infrastructure for validating strategies and moving them into governed execution",
+    icon: "/egbert-logo.png",
     href: "https://egbert.io",
     displayUrl: "egbert.io",
     body: "The governance, provenance, and attestation layer for autonomous systematic trading. Firms bring their strategies and brokers; Egbert adds paper-first validation, explicit risk gates, broker-reconciled execution, kill switches, attribution, and an exportable Strategy Trust Certificate — without becoming the broker, custodian, or source of alpha.",
   },
   {
     name: "Therasyn",
-    title: "Governance & on-prem infrastructure for clinical AI",
+    title: "Governance and on-prem deployment infrastructure for clinical AI",
     href: "https://therasyn.ai",
     displayUrl: "therasyn.ai",
     body: "Governance and deployment infrastructure for clinical AI in environments where cloud-only isn't an option — academic medical centres, regulated health systems, and pharma research. BAA-bound by design, on-prem capable from day one. Built so health systems can run AI inside their own perimeter, with audit, PHI controls, and required sign-off enforced by construction.",
@@ -233,24 +233,17 @@ export default function Page() {
             <motion.div {...fade} className="max-w-3xl">
               <div className="theme-kicker mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em]">
                 <span className="theme-accent-line h-px w-8" />
-                Cejel. Alfred. Egbert. Therasyn.
+                Barg Labs · Evidence before action.
               </div>
 
-              <h1 className="theme-text text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
-                Barg Labs
+              <h1 className="theme-text max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
+                Built for consequential AI.
               </h1>
 
               <div className="theme-copy-strong mt-8 max-w-2xl space-y-5 text-lg leading-8">
                 <p>
-                  The company centers on four product lines:{" "}
-                  <span className="theme-text font-semibold">Cejel</span>, the
-                  evidence-backed trust certificate for code;{" "}
-                  <span className="theme-text font-semibold">Alfred</span>, the
-                  company brain that executes;{" "}
-                  <span className="theme-text font-semibold">Egbert</span>, our
-                  governance layer for autonomous systematic trading;{" "}
-                  and <span className="theme-text font-semibold">Therasyn</span>,
-                  governance and on-prem infrastructure for clinical AI.
+                  Evidence, governance, and execution infrastructure for AI
+                  operating in code, companies, markets, and clinical systems.
                 </p>
               </div>
             </motion.div>
@@ -268,8 +261,8 @@ export default function Page() {
                 priority
               />
               <p className="theme-copy-soft mt-6 text-sm leading-7">
-                Applied AI products for studios, markets, and regulated health
-                systems.
+                Evidence before action. Trust is designed into every product,
+                workflow, and deployment boundary.
               </p>
             </motion.div>
           </div>
@@ -399,7 +392,7 @@ export default function Page() {
             href="https://egbert.io"
             logo={
               <Image
-                src="/egbert-mark-cejel.png"
+                src="/egbert-logo.png"
                 alt="Egbert"
                 width={48}
                 height={48}

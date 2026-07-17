@@ -17,9 +17,9 @@ const themeScript = `
 
 export const metadata = {
   metadataBase: new URL("https://barglabs.ai"),
-  title: "Barg Labs",
+  title: "Barg Labs — Built for consequential AI",
   description:
-    "Barg Labs is an AI-native studio building Cejel, Alfred, Egbert, and Therasyn — applied AI products for code trust, studios, markets, and regulated health systems.",
+    "Barg Labs builds evidence, governance, and execution infrastructure for consequential AI operating in code, companies, markets, and clinical systems.",
   icons: {
     icon: [
       { url: "/barg-icon.svg", type: "image/svg+xml" },
