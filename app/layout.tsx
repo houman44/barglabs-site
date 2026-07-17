@@ -23,7 +23,7 @@ export const metadata = {
   icons: {
     icon: [
       { url: "/barg-icon.svg", type: "image/svg+xml" },
-      { url: "/barg-icon.png", type: "image/png" },
+      { url: "/barg-icon-mark.png", type: "image/png" },
     ],
   },
 };

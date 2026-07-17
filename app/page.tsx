@@ -189,7 +189,7 @@ export default function Page() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
           <a href="#" className="flex items-center gap-3" aria-label="Barg Labs home">
             <Image
-              src="/barg-icon.png"
+              src="/barg-icon-mark.png"
               alt=""
               width={34}
               height={34}
@@ -259,7 +259,7 @@ export default function Page() {
               className="theme-border theme-surface self-end rounded-lg border p-5"
             >
               <Image
-                src="/barg-icon.png"
+                src="/barg-icon-mark.png"
                 alt="Barg Labs"
                 width={92}
                 height={92}
