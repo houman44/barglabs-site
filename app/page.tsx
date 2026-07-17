@@ -128,15 +128,13 @@ function ProductCard({ product }: { product: Product }) {
         <div className="theme-kicker pt-1 text-sm font-medium uppercase tracking-[0.2em]">
           {product.name}
         </div>
-        {product.name === "Egbert" ? (
-          <span className="theme-egbert-mark h-14 w-14" aria-hidden="true" />
-        ) : product.icon ? (
+        {product.icon ? (
           <Image
             src={product.icon}
             alt=""
             width={56}
             height={56}
-            className="h-14 w-14 object-contain"
+            className={`h-14 w-14 object-contain ${product.name === "Egbert" ? "theme-egbert-logo" : ""}`}
           />
         ) : null}
       </div>
