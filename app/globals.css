@@ -129,13 +129,7 @@ body {
 }
 
 .theme-egbert-logo {
-  filter: invert(1);
-  mix-blend-mode: screen;
-}
-
-:root[data-theme="light"] .theme-egbert-logo {
   filter: none;
-  mix-blend-mode: multiply;
 }
 
 .theme-accent-line {
