@@ -136,7 +136,7 @@ function ProductCard({ product }: { product: Product }) {
             alt=""
             width={56}
             height={56}
-            className={`h-14 w-14 object-contain ${product.name === "Egbert" ? "theme-egbert-logo" : ""}`}
+            className="h-14 w-14 object-contain"
           />
         ) : null}
       </div>
@@ -448,7 +448,7 @@ export default function Page() {
                 alt="Egbert"
                 width={48}
                 height={48}
-                className="theme-egbert-logo h-12 w-12 object-contain"
+                className="h-12 w-12 object-contain"
               />
             }
           >
