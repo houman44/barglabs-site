@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Moon, Sun } from "lucide-react";
 
 const fade = {
   initial: { opacity: 0, y: 14 },
@@ -60,6 +60,37 @@ const products: Product[] = [
   },
 ];
 
+function ThemeToggle() {
+  function toggleTheme() {
+    const currentTheme = document.documentElement.dataset.theme ?? "dark";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+
+    document.documentElement.dataset.theme = nextTheme;
+    try {
+      window.localStorage.setItem("barg-theme", nextTheme);
+    } catch {
+      // The theme still changes for this visit when storage is unavailable.
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className="theme-toggle inline-flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium transition"
+      aria-label="Toggle light and dark mode"
+      title="Toggle light and dark mode"
+    >
+      <Sun className="theme-icon-light h-4 w-4" aria-hidden="true" />
+      <Moon className="theme-icon-dark h-4 w-4" aria-hidden="true" />
+      <span className="hidden sm:inline">
+        <span className="theme-label-light">Light</span>
+        <span className="theme-label-dark">Dark</span>
+      </span>
+    </button>
+  );
+}
+
 function Section({
   id,
   title,
@@ -74,12 +105,12 @@ function Section({
   return (
     <motion.section id={id} {...fade} className="scroll-mt-28 py-14 sm:py-18">
       <div className="mb-7 flex items-center gap-4">
-        {logo ?? <div className="h-px w-10 bg-white/25" />}
-        <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        {logo ?? <div className="theme-line h-px w-10" />}
+        <h2 className="theme-text text-2xl font-semibold tracking-tight sm:text-3xl">
           {title}
         </h2>
       </div>
-      <div className="space-y-5 text-base leading-8 text-white/72 sm:text-lg">
+      <div className="theme-copy space-y-5 text-base leading-8 sm:text-lg">
         {children}
       </div>
     </motion.section>
@@ -88,9 +119,9 @@ function Section({
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="flex h-full flex-col rounded-lg border border-white/12 bg-white/[0.035] p-5">
+    <article className="theme-border theme-surface flex h-full flex-col rounded-lg border p-5">
       <div className="flex min-h-14 items-start justify-between gap-4">
-        <div className="pt-1 text-sm font-medium uppercase tracking-[0.2em] text-sky-200/80">
+        <div className="theme-kicker pt-1 text-sm font-medium uppercase tracking-[0.2em]">
           {product.name}
         </div>
         {product.icon ? (
@@ -103,19 +134,19 @@ function ProductCard({ product }: { product: Product }) {
           />
         ) : null}
       </div>
-      <h3 className="mt-3 text-xl font-semibold leading-7 text-white">
+      <h3 className="theme-text mt-3 text-xl font-semibold leading-7">
         {product.title}
       </h3>
       {product.href ? (
         <a
           href={product.href}
-          className="mt-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-amber-200 transition hover:text-amber-100"
+          className="theme-link mt-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium transition"
         >
           {product.displayUrl}
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
         </a>
       ) : null}
-      <p className="mt-5 text-sm leading-7 text-white/68">{product.body}</p>
+      <p className="theme-copy-soft mt-5 text-sm leading-7">{product.body}</p>
     </article>
   );
 }
@@ -140,7 +171,7 @@ function ProductSection({
         <p>
           <a
             href={href}
-            className="inline-flex items-center gap-2 font-medium text-amber-200 transition hover:text-amber-100"
+            className="theme-link inline-flex items-center gap-2 font-medium transition"
           >
             {href.replace("https://", "")}
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -153,8 +184,8 @@ function ProductSection({
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-[#0b0d0f] text-white">
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0d0f]/88 backdrop-blur-xl">
+    <div className="theme-page min-h-screen transition-colors duration-300">
+      <header className="theme-border theme-header sticky top-0 z-50 border-b backdrop-blur-xl transition-colors duration-300">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
           <a href="#" className="flex items-center gap-3" aria-label="Barg Labs home">
             <Image
@@ -166,55 +197,58 @@ export default function Page() {
               priority
             />
             <div>
-              <div className="text-sm font-semibold tracking-tight text-white">
+              <div className="theme-text text-sm font-semibold tracking-tight">
                 Barg Labs
               </div>
-              <div className="text-[11px] uppercase tracking-[0.22em] text-white/45">
+              <div className="theme-copy-subtle text-[11px] uppercase tracking-[0.22em]">
                 Applied AI products
               </div>
             </div>
           </a>
 
-          <nav className="hidden items-center gap-5 text-sm text-white/60 lg:flex">
+          <nav className="theme-nav hidden items-center gap-5 text-sm lg:flex">
             {navItems.map(([label, href]) => (
-              <a key={href} href={href} className="transition hover:text-white">
+              <a key={href} href={href} className="transition">
                 {label}
               </a>
             ))}
           </nav>
 
-          <a
-            href="mailto:team@barglabs.ai"
-            className="rounded-md bg-white px-4 py-2 text-sm font-medium text-[#0b0d0f] transition hover:bg-white/88"
-          >
-            Contact
-          </a>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <a
+              href="mailto:team@barglabs.ai"
+              className="theme-primary rounded-md px-4 py-2 text-sm font-medium transition"
+            >
+              Contact
+            </a>
+          </div>
         </div>
       </header>
 
       <main>
-        <section className="border-b border-white/10">
+        <section className="theme-border border-b">
           <div className="mx-auto grid min-h-[calc(100vh-73px)] max-w-6xl content-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_360px] lg:py-20">
             <motion.div {...fade} className="max-w-3xl">
-              <div className="mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-sky-200/80">
-                <span className="h-px w-8 bg-sky-200/45" />
+              <div className="theme-kicker mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em]">
+                <span className="theme-accent-line h-px w-8" />
                 Cejel. Alfred. Egbert — Fintech 3.0. Therasyn.
               </div>
 
-              <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+              <h1 className="theme-text text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
                 Barg Labs
               </h1>
 
-              <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-white/74">
+              <div className="theme-copy-strong mt-8 max-w-2xl space-y-5 text-lg leading-8">
                 <p>
                   The company centers on four product lines:{" "}
-                  <span className="font-semibold text-white">Cejel</span>, the
+                  <span className="theme-text font-semibold">Cejel</span>, the
                   evidence-backed trust certificate for code;{" "}
-                  <span className="font-semibold text-white">Alfred</span>, the
+                  <span className="theme-text font-semibold">Alfred</span>, the
                   company brain that executes;{" "}
-                  <span className="font-semibold text-white">Egbert</span>, our
+                  <span className="theme-text font-semibold">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
-                  and <span className="font-semibold text-white">Therasyn</span>,
+                  and <span className="theme-text font-semibold">Therasyn</span>,
                   governance and on-prem infrastructure for clinical AI.
                 </p>
               </div>
@@ -222,7 +256,7 @@ export default function Page() {
 
             <motion.div
               {...fade}
-              className="self-end rounded-lg border border-white/12 bg-white/[0.035] p-5"
+              className="theme-border theme-surface self-end rounded-lg border p-5"
             >
               <Image
                 src="/barg-icon.png"
@@ -232,7 +266,7 @@ export default function Page() {
                 className="rounded-lg"
                 priority
               />
-              <p className="mt-6 text-sm leading-7 text-white/68">
+              <p className="theme-copy-soft mt-6 text-sm leading-7">
                 Applied AI products for studios, markets, and regulated health
                 systems.
               </p>
@@ -244,12 +278,12 @@ export default function Page() {
           <motion.section id="products" {...fade} className="scroll-mt-28 py-14 sm:py-18">
             <div className="mb-8 flex items-end justify-between gap-6">
               <div>
-                <div className="mb-4 h-px w-10 bg-white/25" />
-                <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                <div className="theme-line mb-4 h-px w-10" />
+                <h2 className="theme-text text-2xl font-semibold tracking-tight sm:text-3xl">
                   Products
                 </h2>
               </div>
-              <p className="hidden max-w-md text-sm leading-6 text-white/48 md:block">
+              <p className="theme-copy-subtle hidden max-w-md text-sm leading-6 md:block">
                 Four focused surfaces, each built around a concrete operating
                 environment.
               </p>
@@ -350,7 +384,7 @@ export default function Page() {
               Live operator surface available at{" "}
               <a
                 href="https://alfred.barglabs.ai"
-                className="font-medium text-amber-200 transition hover:text-amber-100"
+                className="theme-link font-medium transition"
               >
                 alfred.barglabs.ai
               </a>
@@ -414,17 +448,17 @@ export default function Page() {
           </ProductSection>
 
           <motion.section {...fade} className="py-14 sm:py-18">
-            <div className="rounded-lg border border-white/12 bg-white/[0.035] px-6 py-9 text-center sm:px-10">
-              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            <div className="theme-border theme-surface rounded-lg border px-6 py-9 text-center sm:px-10">
+              <h2 className="theme-text text-2xl font-semibold tracking-tight sm:text-3xl">
                 Contact Barg Labs
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/68">
+              <p className="theme-copy-soft mx-auto mt-4 max-w-2xl text-base leading-7">
                 For product conversations, partnerships, or early access,
                 contact the team directly.
               </p>
               <a
                 href="mailto:team@barglabs.ai"
-                className="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-medium text-[#0b0d0f] transition hover:bg-white/88"
+                className="theme-primary mt-7 inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-medium transition"
               >
                 team@barglabs.ai
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

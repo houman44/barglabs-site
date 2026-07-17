@@ -1,6 +1,176 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: dark;
+  --page-bg: #0b0d0f;
+  --header-bg: rgb(11 13 15 / 88%);
+  --text: #ffffff;
+  --copy-strong: rgb(255 255 255 / 74%);
+  --copy: rgb(255 255 255 / 72%);
+  --copy-soft: rgb(255 255 255 / 68%);
+  --copy-subtle: rgb(255 255 255 / 48%);
+  --nav: rgb(255 255 255 / 60%);
+  --border: rgb(255 255 255 / 11%);
+  --line: rgb(255 255 255 / 25%);
+  --surface: rgb(255 255 255 / 3.5%);
+  --kicker: rgb(186 230 253 / 80%);
+  --accent-line: rgb(186 230 253 / 45%);
+  --link: #fde68a;
+  --link-hover: #fef3c7;
+  --primary-bg: #ffffff;
+  --primary-text: #0b0d0f;
+  --primary-hover: rgb(255 255 255 / 88%);
+  --toggle-bg: rgb(255 255 255 / 5%);
+  --toggle-hover: rgb(255 255 255 / 10%);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: #f4f1e9;
+  --header-bg: rgb(244 241 233 / 90%);
+  --text: #12251d;
+  --copy-strong: rgb(18 37 29 / 78%);
+  --copy: rgb(18 37 29 / 74%);
+  --copy-soft: rgb(18 37 29 / 68%);
+  --copy-subtle: rgb(18 37 29 / 52%);
+  --nav: rgb(18 37 29 / 66%);
+  --border: rgb(20 71 49 / 16%);
+  --line: rgb(20 71 49 / 28%);
+  --surface: rgb(255 255 255 / 64%);
+  --kicker: #176140;
+  --accent-line: rgb(23 97 64 / 48%);
+  --link: #8a5208;
+  --link-hover: #633a03;
+  --primary-bg: #123d2c;
+  --primary-text: #ffffff;
+  --primary-hover: #1a523c;
+  --toggle-bg: rgb(18 61 44 / 6%);
+  --toggle-hover: rgb(18 61 44 / 12%);
+}
+
+html {
+  background: var(--page-bg);
+}
+
 body {
-  background: #0a0a0a;
-  color: white;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+.theme-page {
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+.theme-header {
+  background: var(--header-bg);
+}
+
+.theme-text {
+  color: var(--text);
+}
+
+.theme-copy-strong {
+  color: var(--copy-strong);
+}
+
+.theme-copy {
+  color: var(--copy);
+}
+
+.theme-copy-soft {
+  color: var(--copy-soft);
+}
+
+.theme-copy-subtle {
+  color: var(--copy-subtle);
+}
+
+.theme-nav {
+  color: var(--nav);
+}
+
+.theme-nav a:hover {
+  color: var(--text);
+}
+
+.theme-border {
+  border-color: var(--border);
+}
+
+.theme-line {
+  background: var(--line);
+}
+
+.theme-surface {
+  background: var(--surface);
+}
+
+.theme-kicker {
+  color: var(--kicker);
+}
+
+.theme-accent-line {
+  background: var(--accent-line);
+}
+
+.theme-link {
+  color: var(--link);
+}
+
+.theme-link:hover {
+  color: var(--link-hover);
+}
+
+.theme-primary {
+  background: var(--primary-bg);
+  color: var(--primary-text);
+}
+
+.theme-primary:hover {
+  background: var(--primary-hover);
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--toggle-bg);
+  color: var(--text);
+}
+
+.theme-toggle:hover {
+  background: var(--toggle-hover);
+}
+
+.theme-toggle:focus-visible,
+.theme-primary:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--kicker);
+  outline-offset: 3px;
+}
+
+.theme-icon-dark,
+.theme-label-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-light,
+:root[data-theme="light"] .theme-label-light {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-dark {
+  display: block;
+}
+
+:root[data-theme="light"] .theme-label-dark {
+  display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
