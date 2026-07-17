@@ -125,12 +125,12 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <article className="theme-border theme-surface flex h-full flex-col rounded-lg border p-5">
       <div className="flex min-h-14 items-start justify-between gap-4">
-        <div
-          className={`${product.name === "Egbert" ? "theme-egbert-name" : "theme-kicker"} pt-1 text-sm font-medium uppercase tracking-[0.2em]`}
-        >
+        <div className="theme-kicker pt-1 text-sm font-medium uppercase tracking-[0.2em]">
           {product.name}
         </div>
-        {product.icon ? (
+        {product.name === "Egbert" ? (
+          <span className="theme-egbert-mark h-14 w-14" aria-hidden="true" />
+        ) : product.icon ? (
           <Image
             src={product.icon}
             alt=""
