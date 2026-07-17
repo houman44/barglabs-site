@@ -39,7 +39,6 @@
   --primary-hover: rgb(255 255 255 / 88%);
   --toggle-bg: rgb(255 255 255 / 5%);
   --toggle-hover: rgb(255 255 255 / 10%);
-  --egbert-name: #4ea983;
   --radius: 0.625rem;
 }
 
@@ -65,7 +64,6 @@
   --primary-hover: #1a523c;
   --toggle-bg: rgb(18 61 44 / 6%);
   --toggle-hover: rgb(18 61 44 / 12%);
-  --egbert-name: #176140;
 }
 
 html {
@@ -130,8 +128,12 @@ body {
   color: var(--kicker);
 }
 
-.theme-egbert-name {
-  color: var(--egbert-name);
+.theme-egbert-mark {
+  display: block;
+  flex: 0 0 auto;
+  background: var(--kicker);
+  -webkit-mask: url("/egbert-logo.png") center / contain no-repeat;
+  mask: url("/egbert-logo.png") center / contain no-repeat;
 }
 
 .theme-accent-line {
