@@ -128,10 +128,6 @@ body {
   color: var(--kicker);
 }
 
-.theme-egbert-logo {
-  filter: none;
-}
-
 .theme-accent-line {
   background: var(--accent-line);
 }
