@@ -1,4 +1,21 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: var(--page-bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-muted-foreground: var(--copy-soft);
+  --color-border: var(--border);
+  --color-primary: var(--primary-bg);
+  --color-primary-foreground: var(--primary-text);
+  --color-ring: var(--kicker);
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: calc(var(--radius) * 0.875);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
 
 :root {
   color-scheme: dark;
@@ -22,6 +39,9 @@
   --primary-hover: rgb(255 255 255 / 88%);
   --toggle-bg: rgb(255 255 255 / 5%);
   --toggle-hover: rgb(255 255 255 / 10%);
+  --egbert-name: #8ee0bc;
+  --egbert-logo-filter: brightness(0.78) saturate(1.06);
+  --radius: 0.625rem;
 }
 
 :root[data-theme="light"] {
@@ -46,6 +66,8 @@
   --primary-hover: #1a523c;
   --toggle-bg: rgb(18 61 44 / 6%);
   --toggle-hover: rgb(18 61 44 / 12%);
+  --egbert-name: #227855;
+  --egbert-logo-filter: brightness(0.72) saturate(1.05);
 }
 
 html {
@@ -108,6 +130,14 @@ body {
 
 .theme-kicker {
   color: var(--kicker);
+}
+
+.theme-egbert-name {
+  color: var(--egbert-name);
+}
+
+.theme-egbert-logo {
+  filter: var(--egbert-logo-filter);
 }
 
 .theme-accent-line {

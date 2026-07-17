@@ -4,6 +4,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Moon, Sun } from "lucide-react";
 
+import { Card, CardContent } from "@/components/ui/card";
+
 const fade = {
   initial: { opacity: 0, y: 14 },
   whileInView: { opacity: 1, y: 0 },
@@ -13,6 +15,7 @@ const fade = {
 
 const navItems = [
   ["Products", "#products"],
+  ["Story", "#story"],
   ["Approach", "#approach"],
   ["Leadership", "#leadership"],
   ["Cejel", "#cejel"],
@@ -122,7 +125,9 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <article className="theme-border theme-surface flex h-full flex-col rounded-lg border p-5">
       <div className="flex min-h-14 items-start justify-between gap-4">
-        <div className="theme-kicker pt-1 text-sm font-medium uppercase tracking-[0.2em]">
+        <div
+          className={`${product.name === "Egbert" ? "theme-egbert-name" : "theme-kicker"} pt-1 text-sm font-medium uppercase tracking-[0.2em]`}
+        >
           {product.name}
         </div>
         {product.icon ? (
@@ -131,7 +136,7 @@ function ProductCard({ product }: { product: Product }) {
             alt=""
             width={56}
             height={56}
-            className="h-14 w-14 object-contain"
+            className={`h-14 w-14 object-contain ${product.name === "Egbert" ? "theme-egbert-logo" : ""}`}
           />
         ) : null}
       </div>
@@ -202,7 +207,7 @@ export default function Page() {
                 Barg Labs
               </div>
               <div className="theme-copy-subtle text-[11px] uppercase tracking-[0.22em]">
-                Applied AI products
+                Consequential AI
               </div>
             </div>
           </a>
@@ -290,16 +295,63 @@ export default function Page() {
             </div>
           </motion.section>
 
+          <motion.section id="story" {...fade} className="scroll-mt-28 py-14 sm:py-18">
+            <Card className="theme-border overflow-hidden py-0 shadow-none">
+              <CardContent className="grid p-0 lg:grid-cols-[0.72fr_1.28fr]">
+                <div className="theme-border border-b p-6 sm:p-8 lg:border-r lg:border-b-0">
+                  <div className="theme-kicker text-xs font-medium uppercase tracking-[0.22em]">
+                    Our story
+                  </div>
+                  <h2 className="theme-text mt-5 max-w-sm text-3xl font-semibold tracking-tight sm:text-4xl">
+                    One thesis, unfolding across four products.
+                  </h2>
+                  <p className="theme-copy-subtle mt-8 text-sm font-medium uppercase tracking-[0.18em]">
+                    Evidence before action.
+                  </p>
+                </div>
+
+                <div className="theme-copy space-y-5 p-6 text-base leading-8 sm:p-8 sm:text-lg">
+                  <p>
+                    We began Barg Labs by building a systematic trading
+                    application. Markets made the requirements unusually clear:
+                    every decision needed evidence, every action needed
+                    attribution, and risk had to remain under explicit human
+                    control.
+                  </p>
+                  <p className="theme-text text-xl font-medium leading-8 sm:text-2xl">
+                    We discovered that the hardest problem was not making AI more
+                    capable. It was making AI trustworthy enough to act.
+                  </p>
+                  <p>
+                    That insight became the foundation of Barg Labs. Egbert
+                    applies it to systematic trading. Cejel verifies the code AI
+                    produces. Alfred governs AI execution across a company.
+                    Therasyn brings the same controls to clinical environments
+                    where data, deployment, and accountability cannot be
+                    compromised.
+                  </p>
+                  <p>
+                    Today, Barg Labs builds infrastructure for consequential AI —
+                    systems whose actions matter and therefore must be observable,
+                    governed, and verifiable.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.section>
+
           <Section id="approach" title="Approach">
             <p>
-              Barg Labs builds applied AI products around real operating
-              constraints: who is using the system, where the data lives, what
-              has to be reviewed, and what must remain under human control.
+              Barg Labs builds infrastructure for consequential AI around real
+              operating constraints: who is using the system, where the data
+              lives, what has to be reviewed, and what must remain under human
+              control.
             </p>
             <p>
-              The work is product-led rather than demo-led. Each surface is
-              designed for a specific audience and an environment where
-              reliability, legibility, and iteration matter.
+              The work is evidence-led rather than demo-led. Across code,
+              companies, markets, and clinical systems, AI actions should be
+              observable, governed, attributable, and verifiable before they are
+              trusted.
             </p>
           </Section>
 
@@ -396,7 +448,7 @@ export default function Page() {
                 alt="Egbert"
                 width={48}
                 height={48}
-                className="h-12 w-12 object-contain"
+                className="theme-egbert-logo h-12 w-12 object-contain"
               />
             }
           >
