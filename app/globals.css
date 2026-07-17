@@ -39,7 +39,6 @@
   --primary-hover: rgb(255 255 255 / 88%);
   --toggle-bg: rgb(255 255 255 / 5%);
   --toggle-hover: rgb(255 255 255 / 10%);
-  --egbert-logo-filter: grayscale(1) sepia(0.35) saturate(4) hue-rotate(155deg) brightness(1.35) contrast(1.05);
   --radius: 0.625rem;
 }
 
@@ -65,7 +64,6 @@
   --primary-hover: #1a523c;
   --toggle-bg: rgb(18 61 44 / 6%);
   --toggle-hover: rgb(18 61 44 / 12%);
-  --egbert-logo-filter: grayscale(1) sepia(0.55) saturate(4.5) hue-rotate(92deg) brightness(0.72) contrast(1.15);
 }
 
 html {
@@ -131,7 +129,13 @@ body {
 }
 
 .theme-egbert-logo {
-  filter: var(--egbert-logo-filter);
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+
+:root[data-theme="light"] .theme-egbert-logo {
+  filter: none;
+  mix-blend-mode: multiply;
 }
 
 .theme-accent-line {
