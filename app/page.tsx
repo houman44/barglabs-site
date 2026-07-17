@@ -15,8 +15,8 @@ const navItems = [
   ["Products", "#products"],
   ["Approach", "#approach"],
   ["Leadership", "#leadership"],
-  ["Alfred", "#alfred"],
   ["Cejel", "#cejel"],
+  ["Alfred", "#alfred"],
   ["Egbert", "#egbert"],
   ["Therasyn", "#therasyn"],
 ] as const;
@@ -24,6 +24,7 @@ const navItems = [
 type Product = {
   name: string;
   title: string;
+  icon?: string;
   href?: string;
   displayUrl?: string;
   body: string;
@@ -31,16 +32,17 @@ type Product = {
 
 const products: Product[] = [
   {
+    name: "Cejel",
+    title: "The evidence-backed trust certificate for code",
+    icon: "/cejel-sun-wheel.png",
+    body: "A deterministic, offline code-trust scorer that checks the observable engineering signals behind a repository — test integrity, secret hygiene, dependency discipline, isolation, CI, auditability, and whether the code matches its claims. It emits an evidence-backed certificate and report, incorporates SARIF and OpenSSF Scorecard results, and abstains when the source is too thin to assess responsibly.",
+  },
+  {
     name: "Alfred",
     title: "The company brain that executes",
     href: "https://alfred.barglabs.ai",
     displayUrl: "alfred.barglabs.ai",
     body: "The operator OS that runs a studio — or a whole portfolio — on AI, safely: hard isolation between products, governed execution that proposes but never ships on its own, verified memory, and a trust certificate for everything the AI builds. Cloud or fully on-prem.",
-  },
-  {
-    name: "Cejel",
-    title: "A trust certificate for code",
-    body: "A free, offline CLI that scores how trustworthy any codebase is, in any language — tests, secrets, isolation, CI and audit discipline — folding your existing scanners (Snyk, Semgrep, OpenSSF Scorecard) into one portable, shareable certificate. Especially useful for AI-written code — and any code you didn't write yourself, like an acquisition or a legacy system — where trust can't be eyeballed.",
   },
   {
     name: "Egbert",
@@ -87,10 +89,21 @@ function Section({
 function ProductCard({ product }: { product: Product }) {
   return (
     <article className="flex h-full flex-col rounded-lg border border-white/12 bg-white/[0.035] p-5">
-      <div className="text-sm font-medium uppercase tracking-[0.2em] text-sky-200/80">
-        {product.name}
+      <div className="flex min-h-14 items-start justify-between gap-4">
+        <div className="pt-1 text-sm font-medium uppercase tracking-[0.2em] text-sky-200/80">
+          {product.name}
+        </div>
+        {product.icon ? (
+          <Image
+            src={product.icon}
+            alt=""
+            width={56}
+            height={56}
+            className="h-14 w-14 object-contain"
+          />
+        ) : null}
       </div>
-      <h3 className="mt-4 text-xl font-semibold leading-7 text-white">
+      <h3 className="mt-3 text-xl font-semibold leading-7 text-white">
         {product.title}
       </h3>
       {product.href ? (
@@ -185,7 +198,7 @@ export default function Page() {
             <motion.div {...fade} className="max-w-3xl">
               <div className="mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-sky-200/80">
                 <span className="h-px w-8 bg-sky-200/45" />
-                Alfred. Cejel. Egbert — Fintech 3.0. Therasyn.
+                Cejel. Alfred. Egbert — Fintech 3.0. Therasyn.
               </div>
 
               <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
@@ -195,10 +208,10 @@ export default function Page() {
               <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-white/74">
                 <p>
                   The company centers on four product lines:{" "}
+                  <span className="font-semibold text-white">Cejel</span>, the
+                  evidence-backed trust certificate for code;{" "}
                   <span className="font-semibold text-white">Alfred</span>, the
                   company brain that executes;{" "}
-                  <span className="font-semibold text-white">Cejel</span>, a trust
-                  certificate for code;{" "}
                   <span className="font-semibold text-white">Egbert</span>, our
                   B2B Fintech 3.0 infrastructure platform;{" "}
                   and <span className="font-semibold text-white">Therasyn</span>,
@@ -276,6 +289,41 @@ export default function Page() {
           </Section>
 
           <ProductSection
+            id="cejel"
+            title="Cejel"
+            logo={
+              <Image
+                src="/cejel-sun-wheel.png"
+                alt="Cejel"
+                width={48}
+                height={48}
+                className="h-12 w-12 object-contain"
+              />
+            }
+          >
+            <p>
+              Cejel is a deterministic, offline trust certificate for code. It
+              examines the observable engineering signals behind a repository —
+              test integrity, secret hygiene, dependency discipline, isolation,
+              CI, auditability, and whether the code matches its claims — then
+              produces an evidence-backed certificate and report.
+            </p>
+            <p>
+              Cejel complements the scanners teams already use. It can incorporate
+              SARIF output and OpenSSF Scorecard results into one portable view,
+              with contributing evidence clearly attributed. When a repository is
+              unreadable or the available source is too thin, Cejel abstains
+              instead of presenting a misleading score.
+            </p>
+            <p>
+              It runs fully offline with no signup, telemetry, or model call,
+              making it useful for AI-written code, acquisitions, inherited
+              systems, and regulated environments where the source cannot leave
+              the team's perimeter.
+            </p>
+          </ProductSection>
+
+          <ProductSection
             id="alfred"
             title="Alfred"
             href="https://alfred.barglabs.ai"
@@ -307,31 +355,6 @@ export default function Page() {
                 alfred.barglabs.ai
               </a>
               .
-            </p>
-          </ProductSection>
-
-          <ProductSection id="cejel" title="Cejel">
-            <p>
-              Cejel is a trust certificate for code — any codebase, in any
-              language, whoever or whatever wrote it. It is a free, offline
-              command-line tool that
-              scores the engineering signals that tell you whether to trust a
-              repository - tests, secret hygiene, isolation, claim-vs-reality, and
-              CI and audit discipline - and prints a portable certificate.
-            </p>
-            <p>
-              Rather than competing with the scanner you already run, Cejel
-              aggregates them. Pipe in SARIF from Snyk, Semgrep, or CodeQL, plus
-              OpenSSF Scorecard, and get one shareable, rubric-scored certificate
-              over all of them, with every contributing tool attributed. It is
-              especially useful for AI-written code, and for any code you didn't
-              write yourself - an acquisition, or an inherited legacy system -
-              exactly when trust can't be eyeballed.
-            </p>
-            <p>
-              Open-source and source-available. Runs fully offline, with no signup
-              and no model call. A watermarked, air-gapped build runs fully
-              on-prem for regulated teams.
             </p>
           </ProductSection>
 
