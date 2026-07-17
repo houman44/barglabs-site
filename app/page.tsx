@@ -50,7 +50,7 @@ const products: Product[] = [
   {
     name: "Egbert",
     title: "B2B Fintech 3.0 infrastructure for validating strategies and moving them into governed execution",
-    icon: "/egbert-logo.png",
+    icon: "/egbert-original.jpeg",
     href: "https://egbert.io",
     displayUrl: "egbert.io",
     body: "The governance, provenance, and attestation layer for autonomous systematic trading. Firms bring their strategies and brokers; Egbert adds paper-first validation, explicit risk gates, broker-reconciled execution, kill switches, attribution, and an exportable Strategy Trust Certificate — without becoming the broker, custodian, or source of alpha.",
@@ -442,11 +442,11 @@ export default function Page() {
             href="https://egbert.io"
             logo={
               <Image
-                src="/egbert-logo.png"
+                src="/egbert-original.jpeg"
                 alt="Egbert"
                 width={48}
                 height={48}
-                className="h-12 w-12 object-contain"
+                className="theme-egbert-logo h-12 w-12 object-contain"
               />
             }
           >
