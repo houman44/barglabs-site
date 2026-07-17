@@ -50,7 +50,6 @@ const products: Product[] = [
   {
     name: "Egbert",
     title: "B2B Fintech 3.0 infrastructure for validating strategies and moving them into governed execution",
-    icon: "/egbert-original.png",
     href: "https://egbert.io",
     displayUrl: "egbert.io",
     body: "The governance, provenance, and attestation layer for autonomous systematic trading. Firms bring their strategies and brokers; Egbert adds paper-first validation, explicit risk gates, broker-reconciled execution, kill switches, attribution, and an exportable Strategy Trust Certificate — without becoming the broker, custodian, or source of alpha.",
@@ -134,7 +133,7 @@ function ProductCard({ product }: { product: Product }) {
             alt=""
             width={56}
             height={56}
-            className={`h-14 w-14 object-contain ${product.name === "Egbert" ? "theme-egbert-logo" : ""}`}
+            className="h-14 w-14 object-contain"
           />
         ) : null}
       </div>
@@ -440,15 +439,6 @@ export default function Page() {
             id="egbert"
             title="Egbert"
             href="https://egbert.io"
-            logo={
-              <Image
-                src="/egbert-original.png"
-                alt="Egbert"
-                width={48}
-                height={48}
-                className="theme-egbert-logo h-12 w-12 object-contain"
-              />
-            }
           >
             <p>
               Egbert is the governance, provenance, and attestation layer for
