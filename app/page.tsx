@@ -46,10 +46,11 @@ const products: Product[] = [
   },
   {
     name: "Egbert",
-    title: "B2B Fintech 3.0 infrastructure",
+    title: "Governance for autonomous systematic trading",
+    icon: "/egbert-mark-cejel.png",
     href: "https://egbert.io",
     displayUrl: "egbert.io",
-    body: "Infrastructure for validating trading strategies and moving them from research to governed paper pilots and production — with explicit risk controls, full attribution, and human oversight. Includes Edred, an autonomous strategy and model-health agent that proposes tuning as human-reviewed changes — propose-only, never trading on its own.",
+    body: "The governance, provenance, and attestation layer for autonomous systematic trading. Firms bring their strategies and brokers; Egbert adds paper-first validation, explicit risk gates, broker-reconciled execution, kill switches, attribution, and an exportable Strategy Trust Certificate — without becoming the broker, custodian, or source of alpha.",
   },
   {
     name: "Therasyn",
@@ -232,7 +233,7 @@ export default function Page() {
             <motion.div {...fade} className="max-w-3xl">
               <div className="theme-kicker mb-7 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em]">
                 <span className="theme-accent-line h-px w-8" />
-                Cejel. Alfred. Egbert — Fintech 3.0. Therasyn.
+                Cejel. Alfred. Egbert. Therasyn.
               </div>
 
               <h1 className="theme-text text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
@@ -247,7 +248,7 @@ export default function Page() {
                   <span className="theme-text font-semibold">Alfred</span>, the
                   company brain that executes;{" "}
                   <span className="theme-text font-semibold">Egbert</span>, our
-                  B2B Fintech 3.0 infrastructure platform;{" "}
+                  governance layer for autonomous systematic trading;{" "}
                   and <span className="theme-text font-semibold">Therasyn</span>,
                   governance and on-prem infrastructure for clinical AI.
                 </p>
@@ -398,31 +399,31 @@ export default function Page() {
             href="https://egbert.io"
             logo={
               <Image
-                src="/egbert-mark.png"
+                src="/egbert-mark-cejel.png"
                 alt="Egbert"
-                width={40}
-                height={40}
-                className="rounded-lg"
+                width={48}
+                height={48}
+                className="h-12 w-12 object-contain"
               />
             }
           >
             <p>
-              Egbert is Barg Labs' B2B Fintech 3.0 infrastructure platform for
-              validating trading strategies and moving them from research to
-              governed paper pilots and production, with explicit risk controls
-              and human oversight.
+              Egbert is the governance, provenance, and attestation layer for
+              autonomous systematic trading. Firms bring their strategies and
+              brokers; Egbert provides the deployment, risk, execution, and
+              analytics discipline they would otherwise have to build internally.
             </p>
             <p>
-              It is designed for real execution, monitoring, and controlled
-              rollout, so strategy work can move from analysis into action
-              without becoming an opaque black box.
+              Strategies move through walk-forward evidence, paper deployment,
+              explicit risk gates, and governed promotion review. Every machine
+              decision carries its signal origin, execution state, kill-switch
+              scope, and broker-reconciled outcome in an append-only audit trail.
             </p>
             <p>
-              Egbert includes Edred, an autonomous strategy and model-health
-              agent: it reads live model and trading signals, proposes parameter
-              tuning and re-weighting as human-reviewed changes, and flags
-              model-health issues — propose-only, fully audited, and gated by
-              human approval. It never trades or changes strategy on its own.
+              The result is an exportable Strategy Trust Certificate for allocator
+              diligence and governance review. Customer-hosted and on-prem
+              deployment are available for qualified engagements; live-certified
+              execution is currently FX-only, while CFD remains shadow and paper.
             </p>
           </ProductSection>
 
